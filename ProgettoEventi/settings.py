@@ -144,12 +144,28 @@ DATE_INPUT_FORMATS = ['%d/%m/%Y']
 # Format for datetime input in forms (DD/MM/YYYY HH:MM)
 DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M']
 
+# Default date format (DD/MM/YYYY)
+DATE_FORMAT = 'd/m/Y'
+
+# Default datetime format (DD/MM/YYYY HH:MM)
+DATETIME_FORMAT = 'd/m/Y H:i'
+
+# Default short date format
+SHORT_DATE_FORMAT = 'd/m/Y'
+
+# Default short datetime format
+SHORT_DATETIME_FORMAT = 'd/m/Y H:i'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files (User uploaded files)
+MEDIA_URL = '/'
+MEDIA_ROOT = BASE_DIR
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

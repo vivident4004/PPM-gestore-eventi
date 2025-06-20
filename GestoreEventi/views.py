@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 
 from .models import Event, Registration
-from .forms import EventForm
+from .forms import EventForm, AddAttendeeForm
 
 # Event Views
 class EventListView(ListView):
@@ -18,6 +18,21 @@ class EventListView(ListView):
     context_object_name = 'events'
     ordering = ['-date']
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Ensure all events have their image and end_date properly processed
+        for event in context['events']:
+            # Ensure image URL is accessible if image exists
+            if event.image:
+                event.has_image = True
+            else:
+                event.has_image = False
+
+            # Flag for end_date existence
+            event.has_end_date = event.end_date is not None
+
+        return context
 
 class EventDetailView(DetailView):
     model = Event
@@ -30,12 +45,34 @@ class EventDetailView(DetailView):
                 event=self.object, 
                 attendee=self.request.user
             ).exists()
+
+        # Process image and end_date for the event
+        event = context['event']
+        if event.image:
+            event.has_image = True
+        else:
+            event.has_image = False
+
+        event.has_end_date = event.end_date is not None
+
         return context
 
 class OrganizerRequiredMixin(UserPassesTestMixin):
     def test_func(self):
-        # Check if user is in Organizers group
-        return self.request.user.groups.filter(name='Organizers').exists()
+        # Check if user is in Organizers group or is a superuser
+        return self.request.user.groups.filter(name='Organizers').exists() or self.request.user.is_superuser
+
+class EventDashboardView(LoginRequiredMixin, OrganizerRequiredMixin, TemplateView):
+    template_name = 'GestoreEventi/event_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get all events organized by the current user, or all events if superuser
+        if self.request.user.is_superuser:
+            context['events'] = Event.objects.all().order_by('-date')
+        else:
+            context['events'] = Event.objects.filter(organizer=self.request.user).order_by('-date')
+        return context
 
 class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
     model = Event
@@ -54,8 +91,8 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         event = self.get_object()
-        # Check if user is the organizer of the event
-        return self.request.user == event.organizer
+        # Check if user is the organizer of the event or is a superuser
+        return self.request.user == event.organizer or self.request.user.is_superuser
 
     def get_success_url(self):
         return reverse_lazy('event-detail', kwargs={'pk': self.object.pk})
@@ -67,8 +104,8 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         event = self.get_object()
-        # Check if user is the organizer of the event
-        return self.request.user == event.organizer
+        # Check if user is the organizer of the event or is a superuser
+        return self.request.user == event.organizer or self.request.user.is_superuser
 
 # Registration Views
 @login_required
@@ -116,8 +153,23 @@ def event_attendees(request, pk):
         messages.error(request, _('You do not have permission to view the attendees of this event.'))
         return redirect('event-detail', pk=pk)
 
+    # Handle adding attendees
+    if request.method == 'POST':
+        form = AddAttendeeForm(event, request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['user']
+            try:
+                Registration.objects.create(event=event, attendee=user)
+                messages.success(request, _(f'User {user.username} has been added to the event.'))
+            except IntegrityError:
+                messages.warning(request, _(f'User {user.username} is already registered for this event.'))
+            return redirect('event-attendees', pk=pk)
+    else:
+        form = AddAttendeeForm(event)
+
     registrations = Registration.objects.filter(event=event).order_by('registered_at')
     return render(request, 'GestoreEventi/event_attendees.html', {
         'event': event,
-        'registrations': registrations
+        'registrations': registrations,
+        'form': form
     })

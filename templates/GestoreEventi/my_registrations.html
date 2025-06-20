@@ -21,12 +21,12 @@
                         <table class="table table-striped table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Event</th>
-                                    <th>Date</th>
-                                    <th>Location</th>
-                                    <th>Organizer</th>
-                                    <th>Registered On</th>
-                                    <th>Actions</th>
+                                    <th>{% trans "event"|capfirst %}</th>
+                                    <th>{% trans "data"|capfirst %}</th>
+                                    <th>{% trans "location"|capfirst %}</th>
+                                    <th>{% trans "organizer"|capfirst %}</th>
+                                    <th>{% trans "registered on"|capfirst %}</th>
+                                    <th>{% trans "actions"|capfirst %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,14 +37,14 @@
                                             {{ registration.event.title }}
                                         </a>
                                     </td>
-                                    <td>{{ registration.event.date }}</td>
+                                    <td>{{ registration.event.formatted_date }}</td>
                                     <td>{{ registration.event.location }}</td>
                                     <td>{{ registration.event.organizer.username }}</td>
-                                    <td>{{ registration.registered_at }}</td>
+                                    <td>{{ registration.formatted_registered_at }}</td>
                                     <td>
                                         <a href="{% url 'event-unregister' registration.event.pk %}" 
                                            class="btn btn-sm btn-danger">
-                                            Unregister
+                                            {% translate "unregister"|capfirst %}
                                         </a>
                                     </td>
                                 </tr>
@@ -59,13 +59,13 @@
 {% else %}
     <div class="alert alert-info">
         You are not registered for any events yet. 
-        <a href="{% url 'event-list' %}" class="alert-link">Browse events</a> to find something you're interested in!
+        <a href="{% url 'event-list' %}" class="alert-link">{% translate "browse events"|capfirst %}</a> to find something you're interested in!
     </div>
 {% endif %}
 
 <div class="row mt-4">
     <div class="col">
-        <a href="{% url 'event-list' %}" class="btn btn-outline-primary">Browse Events</a>
+        <a href="{% url 'event-list' %}" class="btn btn-outline-primary">{% translate "browse events"|capfirst %}</a>
     </div>
 </div>
 {% endblock %}

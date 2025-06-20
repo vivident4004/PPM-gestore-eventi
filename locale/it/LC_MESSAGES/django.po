@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-20 17:26+0200\n"
+"POT-Creation-Date: 2025-06-20 19:57+0200\n"
 "PO-Revision-Date: 2025-06-20 11:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
@@ -15,129 +15,284 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: GestoreEventi/views.py:80
-msgid "This event is already full."
-msgstr "Questo evento è già completo."
-
-#: GestoreEventi/views.py:85
-msgid "You have successfully registered for"
-msgstr "Ti sei registrato con successo per"
-
-#: GestoreEventi/views.py:87
-msgid "You are already registered for this event."
-msgstr "Sei già registrato per questo evento."
-
-#: GestoreEventi/views.py:98
-msgid "You have successfully unregistered from"
-msgstr "Ti sei cancellato con successo da"
-
-#: GestoreEventi/views.py:100
-msgid "You are not registered for this event."
-msgstr "Non sei registrato per questo evento."
-
-#: GestoreEventi/views.py:116
-msgid "You do not have permission to view the attendees of this event."
-msgstr "Non hai il permesso di visualizzare i partecipanti di questo evento."
-
-#: ProgettoEventi/settings.py:114
-msgid "Italian"
-msgstr ""
-
-#: ProgettoEventi/settings.py:115
-msgid "English"
-msgstr ""
-
+#: GestoreEventi/forms.py:14 templates/GestoreEventi/event_attendees.html:11
+#: templates/GestoreEventi/event_dashboard.html:32
 #: templates/GestoreEventi/event_detail.html:11
-#: templates/GestoreEventi/event_detail.html:37
 msgid "Date"
 msgstr "Data"
 
-#: templates/GestoreEventi/event_detail.html:12
-#: templates/GestoreEventi/event_detail.html:43
-#: templates/GestoreEventi/event_list.html:34
+#: GestoreEventi/forms.py:15
+#, fuzzy
+#| msgid "End Date"
+msgid "End date"
+msgstr "Data di fine"
+
+#: GestoreEventi/forms.py:16 templates/GestoreEventi/event_attendees.html:13
+#: templates/GestoreEventi/event_dashboard.html:33
+#: templates/GestoreEventi/event_detail.html:13
+#: templates/GestoreEventi/event_detail.html:51
+#: templates/GestoreEventi/event_list.html:42
 msgid "Location"
 msgstr "Luogo"
 
-#: templates/GestoreEventi/event_detail.html:13
+#: GestoreEventi/forms.py:17
+#, fuzzy
+#| msgid "max attendees"
+msgid "Max attendees"
+msgstr "numero massimo di partecipanti"
+
+#: GestoreEventi/forms.py:56
+#, fuzzy
+#| msgid "Add User"
+msgid "User"
+msgstr "Aggiungi utente"
+
+#: GestoreEventi/views.py:117
+msgid "This event is already full."
+msgstr "Questo evento è già completo."
+
+#: GestoreEventi/views.py:122
+msgid "You have successfully registered for"
+msgstr "Ti sei registrato con successo per"
+
+#: GestoreEventi/views.py:124
+msgid "You are already registered for this event."
+msgstr "Sei già registrato per questo evento."
+
+#: GestoreEventi/views.py:135
+msgid "You have successfully unregistered from"
+msgstr "Ti sei cancellato con successo da"
+
+#: GestoreEventi/views.py:137
+msgid "You are not registered for this event."
+msgstr "Non sei registrato per questo evento."
+
+#: GestoreEventi/views.py:153
+msgid "You do not have permission to view the attendees of this event."
+msgstr "Non hai il permesso di visualizzare i partecipanti di questo evento."
+
+#: GestoreEventi/views.py:163
+#, python-brace-format
+msgid "User {user.username} has been added to the event."
+msgstr ""
+
+#: GestoreEventi/views.py:165
+#, fuzzy, python-brace-format
+#| msgid "You are already registered for this event."
+msgid "User {user.username} is already registered for this event."
+msgstr "Sei già registrato per questo evento."
+
+#: ProgettoEventi/settings.py:119
+msgid "Italian"
+msgstr ""
+
+#: ProgettoEventi/settings.py:120
+msgid "English"
+msgstr ""
+
+#: templates/GestoreEventi/event_attendees.html:4
+#: templates/GestoreEventi/event_dashboard.html:34
+msgid "Attendees"
+msgstr "Partecipanti"
+
+#: templates/GestoreEventi/event_attendees.html:9
+msgid "Attendees for"
+msgstr "Partecipanti per"
+
+#: templates/GestoreEventi/event_attendees.html:22
+#, fuzzy
+#| msgid "Registered On"
+msgid "registered attendees"
+msgstr "partecipanti registrati"
+
+#: templates/GestoreEventi/event_attendees.html:24
+msgid "spots left out of"
+msgstr "posti rimasti su"
+
+#: templates/GestoreEventi/event_attendees.html:35
+#: templates/registration/login.html:38 templates/registration/register.html:26
+msgid "Username"
+msgstr "Nome utente"
+
+#: templates/GestoreEventi/event_attendees.html:36
+msgid "Name"
+msgstr "Nome"
+
+#: templates/GestoreEventi/event_attendees.html:37
+#, fuzzy
+#| msgid "Email"
+msgid "Email"
+msgstr "Indirizzo di posta elettronica"
+
+#: templates/GestoreEventi/event_attendees.html:38
+msgid "Phone"
+msgstr "Telefono"
+
+#: templates/GestoreEventi/event_attendees.html:39
+msgid "Registered On"
+msgstr "Registrato il"
+
+#: templates/GestoreEventi/event_attendees.html:59
+msgid "No attendees have registered for this event yet."
+msgstr "Nessun partecipante si è ancora registrato per questo evento."
+
+#: templates/GestoreEventi/event_attendees.html:68
+msgid "Add Attendee"
+msgstr "Aggiungi partecipante"
+
+#: templates/GestoreEventi/event_attendees.html:75
+msgid "Add User"
+msgstr "Aggiungi utente"
+
+#: templates/GestoreEventi/event_attendees.html:79
+msgid "This event is full. You cannot add more attendees."
+msgstr "Questo evento è completo. Non puoi aggiungere altri partecipanti."
+
+#: templates/GestoreEventi/event_attendees.html:90
+#, fuzzy
+#| msgid "Back to events"
+msgid "Back to Event"
+msgstr "Torna agli eventi"
+
+#: templates/GestoreEventi/event_attendees.html:91
+msgid "Print Attendee List"
+msgstr "Stampa elenco partecipanti"
+
+#: templates/GestoreEventi/event_dashboard.html:4
+#: templates/GestoreEventi/event_dashboard.html:9 templates/base.html:111
+msgid "Dashboard"
+msgstr "Cruscotto"
+
+#: templates/GestoreEventi/event_dashboard.html:10
+msgid "Manage your events from this control panel"
+msgstr "Gestisci i tuoi eventi da questo pannello di controllo"
+
+#: templates/GestoreEventi/event_dashboard.html:14
+msgid "Create New Event"
+msgstr "Crea nuovo evento"
+
+#: templates/GestoreEventi/event_dashboard.html:23
+msgid "Your Events"
+msgstr "I tuoi eventi"
+
+#: templates/GestoreEventi/event_dashboard.html:31
+msgid "Title"
+msgstr "Titolo"
+
+#: templates/GestoreEventi/event_dashboard.html:35
+msgid "Actions"
+msgstr "Azioni"
+
+#: templates/GestoreEventi/event_dashboard.html:61
+msgid "View event details"
+msgstr "Visualizza dettagli evento"
+
+#: templates/GestoreEventi/event_dashboard.html:64
+msgid "Edit event information"
+msgstr "Modifica informazioni evento"
+
+#: templates/GestoreEventi/event_dashboard.html:67
+msgid "Delete this event"
+msgstr "Elimina questo evento"
+
+#: templates/GestoreEventi/event_dashboard.html:70
+msgid "Manage event attendees"
+msgstr "Gestisci partecipanti evento"
+
+#: templates/GestoreEventi/event_dashboard.html:82
+msgid "You haven't created any events yet."
+msgstr "Non hai ancora creato eventi."
+
+#: templates/GestoreEventi/event_dashboard.html:85
+msgid "Create Your First Event"
+msgstr "Crea il tuo primo evento"
+
+#: templates/GestoreEventi/event_detail.html:14
 msgid "Organizer"
 msgstr "Organizzatore"
 
-#: templates/GestoreEventi/event_detail.html:22
+#: templates/GestoreEventi/event_detail.html:23
 msgid "Event description"
 msgstr "Descrizione evento"
 
-#: templates/GestoreEventi/event_detail.html:32
+#: templates/GestoreEventi/event_detail.html:38
 #, fuzzy
 #| msgid "Event details"
 msgid "Event details"
 msgstr "Dettagli evento"
 
-#: templates/GestoreEventi/event_detail.html:40
-msgid "Time"
-msgstr "Ora"
+#: templates/GestoreEventi/event_detail.html:43
+msgid "Start Date"
+msgstr "Data di inizio"
 
-#: templates/GestoreEventi/event_detail.html:46
+#: templates/GestoreEventi/event_detail.html:47
+msgid "End Date"
+msgstr "Data di fine"
+
+#: templates/GestoreEventi/event_detail.html:54
 #, fuzzy
-#| msgid "Max ettendees"
-msgid "Max attendees"
-msgstr "Numero massimo di partecipanti"
+#| msgid "max attendees"
+msgid "max attendees"
+msgstr "numero massimo di partecipanti"
 
-#: templates/GestoreEventi/event_detail.html:49
+#: templates/GestoreEventi/event_detail.html:57
 msgid "Available spots"
 msgstr "Posti disponibili"
 
-#: templates/GestoreEventi/event_detail.html:51
-#: templates/GestoreEventi/event_list.html:25
+#: templates/GestoreEventi/event_detail.html:59
+#: templates/GestoreEventi/event_list.html:33
 msgid "Full"
 msgstr "Completo"
 
-#: templates/GestoreEventi/event_detail.html:53
-#: templates/GestoreEventi/event_list.html:27
+#: templates/GestoreEventi/event_detail.html:61
+#: templates/GestoreEventi/event_list.html:35
 msgid "spots left"
 msgstr "posti rimasti"
 
-#: templates/GestoreEventi/event_detail.html:61
+#: templates/GestoreEventi/event_detail.html:69
+#, fuzzy
+#| msgid "unregister"
 msgid "Unregister"
-msgstr "Annulla registrazione"
+msgstr "annulla registrazione"
 
-#: templates/GestoreEventi/event_detail.html:64
+#: templates/GestoreEventi/event_detail.html:72
 #, fuzzy
 #| msgid "Event is full"
 msgid "Event is full"
 msgstr "L'evento è completo"
 
-#: templates/GestoreEventi/event_detail.html:66
+#: templates/GestoreEventi/event_detail.html:74
 msgid "Register"
 msgstr "Registrati"
 
-#: templates/GestoreEventi/event_detail.html:70
+#: templates/GestoreEventi/event_detail.html:78
 msgid "Login to register to the event"
 msgstr "Accedi per registrarti all'evento"
 
-#: templates/GestoreEventi/event_detail.html:82
+#: templates/GestoreEventi/event_detail.html:90
 msgid "Organizer actions"
 msgstr "Azioni organizzatore"
 
-#: templates/GestoreEventi/event_detail.html:86
+#: templates/GestoreEventi/event_detail.html:94
 #: templates/GestoreEventi/event_form.html:5
 #: templates/GestoreEventi/event_form.html:11
 msgid "Edit event"
 msgstr "Modifica evento"
 
-#: templates/GestoreEventi/event_detail.html:87
+#: templates/GestoreEventi/event_detail.html:95
 msgid "Delete event"
 msgstr "Elimina evento"
 
-#: templates/GestoreEventi/event_detail.html:88
+#: templates/GestoreEventi/event_detail.html:96
 msgid "View attendees"
 msgstr "Visualizza partecipanti"
 
-#: templates/GestoreEventi/event_detail.html:98
+#: templates/GestoreEventi/event_detail.html:106
 msgid "Back to events"
 msgstr "Torna agli eventi"
 
 #: templates/GestoreEventi/event_form.html:5
-#: templates/GestoreEventi/event_form.html:11 templates/base.html:72
+#: templates/GestoreEventi/event_form.html:11 templates/base.html:114
 msgid "Create event"
 msgstr "Crea evento"
 
@@ -158,48 +313,48 @@ msgid "Cancel"
 msgstr "Annulla"
 
 #: templates/GestoreEventi/event_list.html:4
-#: templates/GestoreEventi/event_list.html:9 templates/base.html:64
+#: templates/GestoreEventi/event_list.html:9 templates/base.html:103
 msgid "Events"
 msgstr "Eventi"
 
-#: templates/GestoreEventi/event_list.html:30
+#: templates/GestoreEventi/event_list.html:38
 msgid "View details"
 msgstr "Visualizza dettagli"
 
-#: templates/GestoreEventi/event_list.html:46
-#: templates/GestoreEventi/event_list.html:53
+#: templates/GestoreEventi/event_list.html:54
+#: templates/GestoreEventi/event_list.html:61
 msgid "First"
 msgstr "Primo"
 
-#: templates/GestoreEventi/event_list.html:49
-#: templates/GestoreEventi/event_list.html:56
+#: templates/GestoreEventi/event_list.html:57
+#: templates/GestoreEventi/event_list.html:64
 msgid "Previous"
 msgstr "Precedente"
 
-#: templates/GestoreEventi/event_list.html:62
+#: templates/GestoreEventi/event_list.html:70
 msgid "Page"
 msgstr "Pagina"
 
-#: templates/GestoreEventi/event_list.html:62
+#: templates/GestoreEventi/event_list.html:70
 msgid "of"
 msgstr "di"
 
-#: templates/GestoreEventi/event_list.html:68
-#: templates/GestoreEventi/event_list.html:75
+#: templates/GestoreEventi/event_list.html:76
+#: templates/GestoreEventi/event_list.html:83
 msgid "Next"
 msgstr "Successivo"
 
-#: templates/GestoreEventi/event_list.html:71
-#: templates/GestoreEventi/event_list.html:78
+#: templates/GestoreEventi/event_list.html:79
+#: templates/GestoreEventi/event_list.html:86
 msgid "Last"
 msgstr "Ultimo"
 
-#: templates/GestoreEventi/event_list.html:86
+#: templates/GestoreEventi/event_list.html:94
 msgid "No events available at the moment."
 msgstr "Nessun evento disponibile al momento."
 
 #: templates/GestoreEventi/my_registrations.html:3
-#: templates/GestoreEventi/my_registrations.html:8 templates/base.html:68
+#: templates/GestoreEventi/my_registrations.html:8 templates/base.html:107
 msgid "My registrations"
 msgstr "Le mie registrazioni"
 
@@ -207,33 +362,68 @@ msgstr "Le mie registrazioni"
 msgid "Events you're registered for"
 msgstr "Eventi a cui sei registrato"
 
+#: templates/GestoreEventi/my_registrations.html:24
+msgid "event"
+msgstr "evento"
+
+#: templates/GestoreEventi/my_registrations.html:25
+msgid "data"
+msgstr ""
+
+#: templates/GestoreEventi/my_registrations.html:26
+msgid "location"
+msgstr "luogo"
+
+#: templates/GestoreEventi/my_registrations.html:27
+msgid "organizer"
+msgstr "organizzatore"
+
+#: templates/GestoreEventi/my_registrations.html:28
+msgid "registered on"
+msgstr "registrato il"
+
+#: templates/GestoreEventi/my_registrations.html:29
+msgid "actions"
+msgstr "azioni"
+
+#: templates/GestoreEventi/my_registrations.html:47
+msgid "unregister"
+msgstr "annulla registrazione"
+
+#: templates/GestoreEventi/my_registrations.html:62
+#: templates/GestoreEventi/my_registrations.html:68
+#, fuzzy
+#| msgid "Browse events"
+msgid "browse events"
+msgstr "Sfoglia eventi"
+
 #: templates/base.html:7
 #, fuzzy
 #| msgid "Floregram 9000 - Advanced event management system"
 msgid "Floregram 9000 - Advanced event managment system"
 msgstr "Floregram 9000 - Sistema avanzato di gestione degli eventi"
 
-#: templates/base.html:57
+#: templates/base.html:96
 msgid "Event management"
 msgstr "Gestione eventi"
 
-#: templates/base.html:97
+#: templates/base.html:139
 msgid "Welcome"
 msgstr "Benvenuto"
 
-#: templates/base.html:100
+#: templates/base.html:142
 msgid "Logout"
 msgstr "Esci"
 
-#: templates/base.html:104 templates/registration/login.html:48
+#: templates/base.html:146 templates/registration/login.html:48
 msgid "Login"
 msgstr "Accedi"
 
-#: templates/base.html:127
+#: templates/base.html:169
 msgid "Floregram 9000 - Advanced event management system"
 msgstr "Floregram 9000 - Sistema avanzato di gestione degli eventi"
 
-#: templates/base.html:127
+#: templates/base.html:169
 msgid "No rights reserved"
 msgstr "Nessun diritto riservato"
 
@@ -253,10 +443,6 @@ msgstr ""
 #: templates/registration/login.html:29
 msgid "Please login to see this page."
 msgstr "Esegui l'accesso per vedere questa pagina."
-
-#: templates/registration/login.html:38 templates/registration/register.html:26
-msgid "Username"
-msgstr "Nome utente"
 
 #: templates/registration/login.html:43 templates/registration/register.html:81
 #: users/views.py:12
@@ -343,8 +529,20 @@ msgstr "Account creato con successo! Ora sei connesso come"
 msgid "You have been successfully logged out."
 msgstr "Sei stato disconnesso con successo."
 
-#~ msgid "Title"
-#~ msgstr "Titolo"
+#~ msgid "date"
+#~ msgstr "data"
+
+#~ msgid "View"
+#~ msgstr "Visualizza"
+
+#~ msgid "Edit"
+#~ msgstr "Modifica"
+
+#~ msgid "Delete"
+#~ msgstr "Elimina"
+
+#~ msgid "Time"
+#~ msgstr "Ora"
 
 #~ msgid "Description"
 #~ msgstr "Descrizione"
@@ -387,47 +585,14 @@ msgstr "Sei stato disconnesso con successo."
 #~ msgid "Event"
 #~ msgstr "Evento"
 
-#~ msgid "Actions"
-#~ msgstr "Azioni"
-
 #~ msgid "You are not registered for any events yet."
 #~ msgstr "Non sei ancora registrato a nessun evento."
-
-#~ msgid "Browse events"
-#~ msgstr "Sfoglia eventi"
 
 #~ msgid "to find something you're interested in!"
 #~ msgstr "per trovare qualcosa che ti interessa!"
 
 #~ msgid "Browse Events"
 #~ msgstr "Sfoglia eventi"
-
-#~ msgid "Attendees"
-#~ msgstr "Partecipanti"
-
-#~ msgid "Attendees for"
-#~ msgstr "Partecipanti per"
-
-#~ msgid "Registered Attendees"
-#~ msgstr "Partecipanti registrati"
-
-#~ msgid "spots left out of"
-#~ msgstr "posti rimasti su"
-
-#~ msgid "Name"
-#~ msgstr "Nome"
-
-#~ msgid "Phone"
-#~ msgstr "Telefono"
-
-#~ msgid "Registered On"
-#~ msgstr "Registrato il"
-
-#~ msgid "No attendees have registered for this event yet."
-#~ msgstr "Nessun partecipante si è ancora registrato per questo evento."
-
-#~ msgid "Print Attendee List"
-#~ msgstr "Stampa elenco partecipanti"
 
 #~ msgid "Don't have an account?"
 #~ msgstr "Non hai un conto?"

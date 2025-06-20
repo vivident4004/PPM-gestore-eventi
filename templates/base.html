@@ -6,10 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% translate "Floregram 9000 - Advanced event managment system" %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         html, body {
             height: 100%;
             margin: 0;
+        }
+        /* Dashboard action buttons styling */
+        .dashboard-action-btn {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 3px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .dashboard-action-btn i {
+            font-size: 1.2rem;
+        }
+        .dashboard-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .view-btn {
+            background-color: #e3f2fd;
+            border-color: #90caf9;
+            color: #1976d2;
+        }
+        .edit-btn {
+            background-color: #fff8e1;
+            border-color: #ffecb3;
+            color: #ff8f00;
+        }
+        .delete-btn {
+            background-color: #ffebee;
+            border-color: #ffcdd2;
+            color: #d32f2f;
+        }
+        .attendees-btn {
+            background-color: #e8f5e9;
+            border-color: #c8e6c9;
+            color: #388e3c;
         }
         body {
             padding-top: 60px;
@@ -67,7 +106,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'my-registrations' %}">{% translate "My registrations" %}</a>
                         </li>
-                        {% if user.groups.all.0.name == 'Organizers' %}
+                        {% if user.groups.all.0.name == 'Organizers' or user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'event-dashboard' %}">{% translate "Dashboard" %}</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'event-create' %}">{% translate "Create event" %}</a>
                             </li>
@@ -129,5 +171,14 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
 </body>
 </html>
