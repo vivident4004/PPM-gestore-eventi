@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>{{ event.title }}</h1>
+        <p class="text-muted">
+            <strong>{% trans "Date" %}:</strong> {{ event.date }} |
+            <strong>{% trans "Location" %}:</strong> {{ event.location }} | 
+            <strong>{% trans "Organizer" %}:</strong> {{ event.organizer.username }}
+        </p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>{% trans "Event description" %}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ event.description|linebreaks }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>{% trans "Event details" %}</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>{% trans "Date" %}:</strong> {{ event.date }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% trans "Time" %}:</strong> {{ event.date }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% trans "Location" %}:</strong> {{ event.location }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% trans "Max attendees" %}:</strong> {{ event.max_attendees }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% trans "Available spots" %}:</strong>
+                        {% if event.is_full %}
+                            <span class="badge bg-danger">{% trans "Full" %}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ event.available_spots }} {% trans "spots left" %}</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                {% if user.is_authenticated %}
+                    {% if is_registered %}
+                        <a href="{% url 'event-unregister' event.pk %}" class="btn btn-danger w-100">{% trans "Unregister" %}</a>
+                    {% else %}
+                        {% if event.is_full %}
+                            <button class="btn btn-secondary w-100" disabled>{% trans "Event is full" %}</button>
+                        {% else %}
+                            <a href="{% url 'event-register' event.pk %}" class="btn btn-success w-100">{% trans "Register" %}</a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary w-100">{% trans "Login to register to the event" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated and user == event.organizer %}
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h5>{% trans "Organizer actions" %}</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex gap-2">
+                    <a href="{% url 'event-update' event.pk %}" class="btn btn-warning">{% trans "Edit event" %}</a>
+                    <a href="{% url 'event-delete' event.pk %}" class="btn btn-danger">{% trans "Delete event" %}</a>
+                    <a href="{% url 'event-attendees' event.pk %}" class="btn btn-info">{% trans "View attendees" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col">
+        <a href="{% url 'event-list' %}" class="btn btn-outline-secondary">{% trans "Back to events" %}</a>
+    </div>
+</div>
+{% endblock %}

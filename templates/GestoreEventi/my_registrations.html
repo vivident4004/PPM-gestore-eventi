@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% translate "My registrations" %}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>{% translate "My registrations" %}</h1>
+    </div>
+</div>
+
+{% if registrations %}
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{% translate "Events you're registered for" %}</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Organizer</th>
+                                    <th>Registered On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for registration in registrations %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'event-detail' registration.event.pk %}">
+                                            {{ registration.event.title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ registration.event.date }}</td>
+                                    <td>{{ registration.event.location }}</td>
+                                    <td>{{ registration.event.organizer.username }}</td>
+                                    <td>{{ registration.registered_at }}</td>
+                                    <td>
+                                        <a href="{% url 'event-unregister' registration.event.pk %}" 
+                                           class="btn btn-sm btn-danger">
+                                            Unregister
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        You are not registered for any events yet. 
+        <a href="{% url 'event-list' %}" class="alert-link">Browse events</a> to find something you're interested in!
+    </div>
+{% endif %}
+
+<div class="row mt-4">
+    <div class="col">
+        <a href="{% url 'event-list' %}" class="btn btn-outline-primary">Browse Events</a>
+    </div>
+</div>
+{% endblock %}

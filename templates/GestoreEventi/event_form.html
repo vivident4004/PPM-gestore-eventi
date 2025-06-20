@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% if form.instance.pk %}{% trans "Edit event" %}{% else %}{% trans "Create event" %}{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1>{% if form.instance.pk %}{% trans "Edit event" %}{% else %}{% trans "Create event" %}{% endif %}</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {# Django will render all fields with the widgets and classes we defined! #}
+                    {{ form.as_p }}
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}{% trans "Update Event" %}{% else %}{% trans "Create Event" %}{% endif %}
+                        </button>
+                        <a href="{% if form.instance.pk %}{% url 'event-detail' form.instance.pk %}{% else %}{% url 'event-list' %}{% endif %}"
+                           class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

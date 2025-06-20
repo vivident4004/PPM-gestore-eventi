@@ -1,0 +1,439 @@
+# Italian translation for the Event Management System
+# Copyright (C) 2025
+# This file is distributed under the same license as the Event Management System package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-20 17:26+0200\n"
+"PO-Revision-Date: 2025-06-20 11:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: GestoreEventi/views.py:80
+msgid "This event is already full."
+msgstr "Questo evento è già completo."
+
+#: GestoreEventi/views.py:85
+msgid "You have successfully registered for"
+msgstr "Ti sei registrato con successo per"
+
+#: GestoreEventi/views.py:87
+msgid "You are already registered for this event."
+msgstr "Sei già registrato per questo evento."
+
+#: GestoreEventi/views.py:98
+msgid "You have successfully unregistered from"
+msgstr "Ti sei cancellato con successo da"
+
+#: GestoreEventi/views.py:100
+msgid "You are not registered for this event."
+msgstr "Non sei registrato per questo evento."
+
+#: GestoreEventi/views.py:116
+msgid "You do not have permission to view the attendees of this event."
+msgstr "Non hai il permesso di visualizzare i partecipanti di questo evento."
+
+#: ProgettoEventi/settings.py:114
+msgid "Italian"
+msgstr ""
+
+#: ProgettoEventi/settings.py:115
+msgid "English"
+msgstr ""
+
+#: templates/GestoreEventi/event_detail.html:11
+#: templates/GestoreEventi/event_detail.html:37
+msgid "Date"
+msgstr "Data"
+
+#: templates/GestoreEventi/event_detail.html:12
+#: templates/GestoreEventi/event_detail.html:43
+#: templates/GestoreEventi/event_list.html:34
+msgid "Location"
+msgstr "Luogo"
+
+#: templates/GestoreEventi/event_detail.html:13
+msgid "Organizer"
+msgstr "Organizzatore"
+
+#: templates/GestoreEventi/event_detail.html:22
+msgid "Event description"
+msgstr "Descrizione evento"
+
+#: templates/GestoreEventi/event_detail.html:32
+#, fuzzy
+#| msgid "Event details"
+msgid "Event details"
+msgstr "Dettagli evento"
+
+#: templates/GestoreEventi/event_detail.html:40
+msgid "Time"
+msgstr "Ora"
+
+#: templates/GestoreEventi/event_detail.html:46
+#, fuzzy
+#| msgid "Max ettendees"
+msgid "Max attendees"
+msgstr "Numero massimo di partecipanti"
+
+#: templates/GestoreEventi/event_detail.html:49
+msgid "Available spots"
+msgstr "Posti disponibili"
+
+#: templates/GestoreEventi/event_detail.html:51
+#: templates/GestoreEventi/event_list.html:25
+msgid "Full"
+msgstr "Completo"
+
+#: templates/GestoreEventi/event_detail.html:53
+#: templates/GestoreEventi/event_list.html:27
+msgid "spots left"
+msgstr "posti rimasti"
+
+#: templates/GestoreEventi/event_detail.html:61
+msgid "Unregister"
+msgstr "Annulla registrazione"
+
+#: templates/GestoreEventi/event_detail.html:64
+#, fuzzy
+#| msgid "Event is full"
+msgid "Event is full"
+msgstr "L'evento è completo"
+
+#: templates/GestoreEventi/event_detail.html:66
+msgid "Register"
+msgstr "Registrati"
+
+#: templates/GestoreEventi/event_detail.html:70
+msgid "Login to register to the event"
+msgstr "Accedi per registrarti all'evento"
+
+#: templates/GestoreEventi/event_detail.html:82
+msgid "Organizer actions"
+msgstr "Azioni organizzatore"
+
+#: templates/GestoreEventi/event_detail.html:86
+#: templates/GestoreEventi/event_form.html:5
+#: templates/GestoreEventi/event_form.html:11
+msgid "Edit event"
+msgstr "Modifica evento"
+
+#: templates/GestoreEventi/event_detail.html:87
+msgid "Delete event"
+msgstr "Elimina evento"
+
+#: templates/GestoreEventi/event_detail.html:88
+msgid "View attendees"
+msgstr "Visualizza partecipanti"
+
+#: templates/GestoreEventi/event_detail.html:98
+msgid "Back to events"
+msgstr "Torna agli eventi"
+
+#: templates/GestoreEventi/event_form.html:5
+#: templates/GestoreEventi/event_form.html:11 templates/base.html:72
+msgid "Create event"
+msgstr "Crea evento"
+
+#: templates/GestoreEventi/event_form.html:27
+#, fuzzy
+#| msgid "Update event"
+msgid "Update Event"
+msgstr "Aggiorna evento"
+
+#: templates/GestoreEventi/event_form.html:27
+#, fuzzy
+#| msgid "Create event"
+msgid "Create Event"
+msgstr "Crea evento"
+
+#: templates/GestoreEventi/event_form.html:30
+msgid "Cancel"
+msgstr "Annulla"
+
+#: templates/GestoreEventi/event_list.html:4
+#: templates/GestoreEventi/event_list.html:9 templates/base.html:64
+msgid "Events"
+msgstr "Eventi"
+
+#: templates/GestoreEventi/event_list.html:30
+msgid "View details"
+msgstr "Visualizza dettagli"
+
+#: templates/GestoreEventi/event_list.html:46
+#: templates/GestoreEventi/event_list.html:53
+msgid "First"
+msgstr "Primo"
+
+#: templates/GestoreEventi/event_list.html:49
+#: templates/GestoreEventi/event_list.html:56
+msgid "Previous"
+msgstr "Precedente"
+
+#: templates/GestoreEventi/event_list.html:62
+msgid "Page"
+msgstr "Pagina"
+
+#: templates/GestoreEventi/event_list.html:62
+msgid "of"
+msgstr "di"
+
+#: templates/GestoreEventi/event_list.html:68
+#: templates/GestoreEventi/event_list.html:75
+msgid "Next"
+msgstr "Successivo"
+
+#: templates/GestoreEventi/event_list.html:71
+#: templates/GestoreEventi/event_list.html:78
+msgid "Last"
+msgstr "Ultimo"
+
+#: templates/GestoreEventi/event_list.html:86
+msgid "No events available at the moment."
+msgstr "Nessun evento disponibile al momento."
+
+#: templates/GestoreEventi/my_registrations.html:3
+#: templates/GestoreEventi/my_registrations.html:8 templates/base.html:68
+msgid "My registrations"
+msgstr "Le mie registrazioni"
+
+#: templates/GestoreEventi/my_registrations.html:17
+msgid "Events you're registered for"
+msgstr "Eventi a cui sei registrato"
+
+#: templates/base.html:7
+#, fuzzy
+#| msgid "Floregram 9000 - Advanced event management system"
+msgid "Floregram 9000 - Advanced event managment system"
+msgstr "Floregram 9000 - Sistema avanzato di gestione degli eventi"
+
+#: templates/base.html:57
+msgid "Event management"
+msgstr "Gestione eventi"
+
+#: templates/base.html:97
+msgid "Welcome"
+msgstr "Benvenuto"
+
+#: templates/base.html:100
+msgid "Logout"
+msgstr "Esci"
+
+#: templates/base.html:104 templates/registration/login.html:48
+msgid "Login"
+msgstr "Accedi"
+
+#: templates/base.html:127
+msgid "Floregram 9000 - Advanced event management system"
+msgstr "Floregram 9000 - Sistema avanzato di gestione degli eventi"
+
+#: templates/base.html:127
+msgid "No rights reserved"
+msgstr "Nessun diritto riservato"
+
+#: templates/registration/login.html:18
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+"Il tuo nome utente e la tua password non corrispondono. Per favore riprova."
+
+#: templates/registration/login.html:25
+msgid ""
+"Your account doesn't have authorization access to this page. To proceed, "
+"please login with an account that has the correct permissions."
+msgstr ""
+"Il tuo conto non ha l'autorizzazione per accedere a questa pagina. Per "
+"procedere, accedi con un conto che abbia i permessi giusti."
+
+#: templates/registration/login.html:29
+msgid "Please login to see this page."
+msgstr "Esegui l'accesso per vedere questa pagina."
+
+#: templates/registration/login.html:38 templates/registration/register.html:26
+msgid "Username"
+msgstr "Nome utente"
+
+#: templates/registration/login.html:43 templates/registration/register.html:81
+#: users/views.py:12
+msgid "Password"
+msgstr "Parola d'accesso"
+
+#: templates/registration/login.html:55
+msgid "Register here"
+msgstr "Registrati qui"
+
+#: templates/registration/login.html:56
+msgid "Forgot your password?"
+msgstr "Hai dimenticato la tua parola d'accesso?"
+
+#: templates/registration/register.html:34
+#, fuzzy
+#| msgid "Email"
+msgid "E-mail"
+msgstr "Indirizzo di posta elettronica"
+
+#: templates/registration/register.html:44
+msgid "First name"
+msgstr "Nome"
+
+#: templates/registration/register.html:53
+msgid "Last name"
+msgstr "Cognome"
+
+#: templates/registration/register.html:63
+#, fuzzy
+#| msgid "Phone Number"
+msgid "Phone number"
+msgstr "Numero di telefono"
+
+#: templates/registration/register.html:71
+msgid "Some words about you"
+msgstr "Alcune informazioni su di te"
+
+#: templates/registration/register.html:89
+msgid "Confirm password"
+msgstr "Conferma parola d'accesso"
+
+#: templates/registration/register.html:101
+#, fuzzy
+#| msgid "Register as Event Organizer"
+msgid "Register as event organizer"
+msgstr "Registrati come organizzatore di eventi"
+
+#: templates/registration/register.html:106
+msgid "Fields marked with"
+msgstr "I campi contrassegnati con"
+
+#: templates/registration/register.html:106
+msgid "are required"
+msgstr "sono obbligatori"
+
+#: templates/registration/register.html:115
+msgid "Already have an account?"
+msgstr "Hai già un conto?"
+
+#: templates/registration/register.html:115
+msgid "Login here"
+msgstr "Accedi qui"
+
+#: users/views.py:13
+#, fuzzy
+#| msgid "Confirm password"
+msgid "Confirm Password"
+msgstr "Conferma parola d'accesso"
+
+#: users/views.py:14
+msgid "Register as Event Organizer"
+msgstr "Registrati come organizzatore di eventi"
+
+#: users/views.py:24
+msgid "Passwords do not match"
+msgstr "Le parole d'accesso non corrispondono"
+
+#: users/views.py:47
+msgid "Account created successfully! You are now logged in as"
+msgstr "Account creato con successo! Ora sei connesso come"
+
+#: users/views.py:57
+msgid "You have been successfully logged out."
+msgstr "Sei stato disconnesso con successo."
+
+#~ msgid "Title"
+#~ msgstr "Titolo"
+
+#~ msgid "Description"
+#~ msgstr "Descrizione"
+
+#~ msgid "Date and time"
+#~ msgstr "Data e ora"
+
+#~ msgid "Format: YYYY-MM-DD HH:MM"
+#~ msgstr "Formato: AAAA-MM-GG OO:MM"
+
+#, fuzzy
+#~| msgid "Maximum attendees"
+#~ msgid "Maximum aAttendees"
+#~ msgstr "Numero massimo di partecipanti"
+
+#~ msgid "Change"
+#~ msgstr "Cambia"
+
+#, fuzzy
+#~| msgid "Event management"
+#~ msgid "Event management system"
+#~ msgstr "Gestione eventi"
+
+#~ msgid "Confirm Deletion"
+#~ msgstr "Conferma eliminazione"
+
+#~ msgid "Are you sure you want to delete the event"
+#~ msgstr "Sei sicuro di voler eliminare l'evento"
+
+#~ msgid ""
+#~ "This action cannot be undone. All registrations for this event will also "
+#~ "be deleted."
+#~ msgstr ""
+#~ "Questa azione non può essere annullata. Anche tutte le registrazioni per "
+#~ "questo evento verranno eliminate."
+
+#~ msgid "Yes, Delete Event"
+#~ msgstr "Sì, elimina evento"
+
+#~ msgid "Event"
+#~ msgstr "Evento"
+
+#~ msgid "Actions"
+#~ msgstr "Azioni"
+
+#~ msgid "You are not registered for any events yet."
+#~ msgstr "Non sei ancora registrato a nessun evento."
+
+#~ msgid "Browse events"
+#~ msgstr "Sfoglia eventi"
+
+#~ msgid "to find something you're interested in!"
+#~ msgstr "per trovare qualcosa che ti interessa!"
+
+#~ msgid "Browse Events"
+#~ msgstr "Sfoglia eventi"
+
+#~ msgid "Attendees"
+#~ msgstr "Partecipanti"
+
+#~ msgid "Attendees for"
+#~ msgstr "Partecipanti per"
+
+#~ msgid "Registered Attendees"
+#~ msgstr "Partecipanti registrati"
+
+#~ msgid "spots left out of"
+#~ msgstr "posti rimasti su"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "Phone"
+#~ msgstr "Telefono"
+
+#~ msgid "Registered On"
+#~ msgstr "Registrato il"
+
+#~ msgid "No attendees have registered for this event yet."
+#~ msgstr "Nessun partecipante si è ancora registrato per questo evento."
+
+#~ msgid "Print Attendee List"
+#~ msgstr "Stampa elenco partecipanti"
+
+#~ msgid "Don't have an account?"
+#~ msgstr "Non hai un conto?"
+
+#~ msgid "Please correct the errors below."
+#~ msgstr "Correggi gli errori qui sotto."
+
+#~ msgid "Bio"
+#~ msgstr "Biografia"
