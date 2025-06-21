@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-21 11:57+0200\n"
+"POT-Creation-Date: 2025-06-21 15:15+0200\n"
 "PO-Revision-Date: 2025-06-20 11:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
@@ -15,138 +15,217 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: GestoreEventi/forms.py:12
+#: GestoreEventi/forms.py:13
+msgid "Add new categories separated by commas"
+msgstr "Aggiungi nuove categorie separate da virgole"
+
+#: GestoreEventi/forms.py:19
 #, fuzzy
 #| msgid "Title"
 msgid "title"
 msgstr "titolo"
 
-#: GestoreEventi/forms.py:13
+#: GestoreEventi/forms.py:20
 #, fuzzy
 #| msgid "Description"
 msgid "description"
 msgstr "descrizione"
 
-#: GestoreEventi/forms.py:14 templates/GestoreEventi/event_detail.html:43
+#: GestoreEventi/forms.py:21 templates/GestoreEventi/event_detail.html:43
 #, fuzzy
 #| msgid "Start date"
 msgid "start date"
 msgstr "data di inizio"
 
-#: GestoreEventi/forms.py:15 templates/GestoreEventi/event_detail.html:47
+#: GestoreEventi/forms.py:22 templates/GestoreEventi/event_detail.html:47
 #, fuzzy
 #| msgid "End date"
 msgid "end date"
 msgstr "data di fine"
 
-#: GestoreEventi/forms.py:16 templates/GestoreEventi/event_detail.html:13
+#: GestoreEventi/forms.py:23 templates/GestoreEventi/event_detail.html:13
 #: templates/GestoreEventi/event_detail.html:51
 #: templates/GestoreEventi/my_registrations.html:26
 msgid "location"
 msgstr "luogo"
 
-#: GestoreEventi/forms.py:17 templates/GestoreEventi/event_detail.html:54
+#: GestoreEventi/forms.py:24 templates/GestoreEventi/event_detail.html:54
 #, fuzzy
 #| msgid "Max attendees"
 msgid "max attendees"
 msgstr "numero massimo di partecipanti"
 
-#: GestoreEventi/forms.py:18
+#: GestoreEventi/forms.py:25
 msgid "image"
 msgstr ""
 
-#: GestoreEventi/forms.py:19 templates/GestoreEventi/event_detail.html:65
+#: GestoreEventi/forms.py:26 templates/GestoreEventi/event_detail.html:65
 #, fuzzy
 #| msgid "Categories"
 msgid "categories"
 msgstr "categorie"
 
-#: GestoreEventi/forms.py:26
+#: GestoreEventi/forms.py:27
 msgid "new categories"
 msgstr "Se non presente, crea le nuove categorie qui"
 
-#: GestoreEventi/forms.py:12
-msgid "Add new categories separated by commas"
-msgstr "Aggiungi nuove categorie separate da virgole"
-
-#: GestoreEventi/forms.py:71
+#: GestoreEventi/forms.py:80
 #, fuzzy
 #| msgid "A category with this name already exists."
 msgid "a category with this name already exists."
 msgstr "una categoria con questo nome esiste già."
 
-#: GestoreEventi/forms.py:87
+#: GestoreEventi/forms.py:104 GestoreEventi/models.py:23
+msgid "name"
+msgstr "nome"
+
+#: GestoreEventi/forms.py:105 GestoreEventi/models.py:24
+#: templates/GestoreEventi/event_detail.html:79
+#: templates/GestoreEventi/event_detail.html:91
+msgid "price"
+msgstr "prezzo"
+
+#: GestoreEventi/forms.py:106 GestoreEventi/models.py:25
+msgid "max seats"
+msgstr "posti massimi"
+
+#: GestoreEventi/forms.py:141
+msgid "At least one price option is required. Please add a price option."
+msgstr ""
+"È richiesta almeno un'opzione di prezzo. Si prega di aggiungere un'opzione "
+"di prezzo."
+
+#: GestoreEventi/forms.py:147
+msgid ""
+"At least one price option must have a price value (can be 0 for free events)."
+msgstr ""
+"Almeno un'opzione di prezzo deve avere un valore di prezzo (può essere 0 per "
+"eventi gratuiti)."
+
+#: GestoreEventi/forms.py:163
+#, python-format
+msgid ""
+"The sum of max seats (%(total)s) exceeds the event's maximum attendees "
+"(%(max)s). Please reduce the number of seats."
+msgstr ""
+"La somma dei posti massimi (%(total)s) supera il numero massimo di "
+"partecipanti dell'evento (%(max)s). Si prega di ridurre il numero di posti."
+
+#: GestoreEventi/forms.py:189
+#, python-format
+msgid ""
+"Cannot reduce max seats to %(new)s for price option '%(name)s' as there are "
+"already %(current)s registrations."
+msgstr ""
+"Impossibile ridurre i posti massimi a %(new)s per l'opzione di prezzo "
+"'%(name)s' poiché ci sono già %(current)s registrazioni."
+
+#: GestoreEventi/forms.py:200
+#, python-format
+msgid ""
+"The max seats (%(seats)s) for the new price option exceeds the remaining "
+"available seats (%(remaining)s) for this event."
+msgstr ""
+"I posti massimi (%(seats)s) per la nuova opzione di prezzo superano i posti "
+"disponibili rimanenti (%(remaining)s) per questo evento."
+
+#: GestoreEventi/forms.py:221 GestoreEventi/forms.py:251
+#: templates/GestoreEventi/event_detail.html:150
+msgid "price option"
+msgstr "opzione di prezzo"
+
+#: GestoreEventi/forms.py:245
 msgid "user"
 msgstr ""
 
-#: GestoreEventi/views.py:145
+#: GestoreEventi/models.py:126 GestoreEventi/models.py:136
+#: GestoreEventi/models.py:145 GestoreEventi/models.py:152
+msgid "Free"
+msgstr "Gratis"
+
+#: GestoreEventi/models.py:161
+#, python-format
+msgid "from %(min_price)s € to %(max_price)s €"
+msgstr "da %(min_price)s € a %(max_price)s €"
+
+#: GestoreEventi/views.py:322
 #, fuzzy
 #| msgid "Category created successfully."
 msgid "category created successfully."
 msgstr "categoria creata con successo."
 
-#: GestoreEventi/views.py:155
+#: GestoreEventi/views.py:332
 #, fuzzy
 #| msgid "Category updated successfully."
 msgid "category updated successfully."
 msgstr "categoria aggiornata con successo."
 
-#: GestoreEventi/views.py:167
+#: GestoreEventi/views.py:344
 #, fuzzy
 #| msgid "Cannot delete category because it is used by one or more events."
 msgid "cannot delete category because it is used by one or more events."
 msgstr ""
 "impossibile eliminare la categoria perché è utilizzata da uno o più eventi."
 
-#: GestoreEventi/views.py:169
+#: GestoreEventi/views.py:346
 #, fuzzy
 #| msgid "Category deleted successfully."
 msgid "category deleted successfully."
 msgstr "categoria eliminata con successo."
 
-#: GestoreEventi/views.py:179
+#: GestoreEventi/views.py:356
 #, fuzzy
 #| msgid "This event is already full."
 msgid "this event is already full."
 msgstr "questo evento è già completo."
 
-#: GestoreEventi/views.py:184
+#: GestoreEventi/views.py:370 GestoreEventi/views.py:426
+msgid "this price option is already full."
+msgstr "questa opzione di prezzo è già completa."
+
+#: GestoreEventi/views.py:373
+#, fuzzy
+#| msgid "this price option is already full."
+msgid "invalid price option selected."
+msgstr "questa opzione di prezzo è già completa."
+
+#: GestoreEventi/views.py:381
 #, fuzzy
 #| msgid "You have successfully registered for"
 msgid "you have successfully registered for"
 msgstr "ti sei registrato con successo per"
 
-#: GestoreEventi/views.py:186
+#: GestoreEventi/views.py:383
 #, fuzzy
 #| msgid "You are already registered for this event."
 msgid "you are already registered for this event."
 msgstr "sei già registrato per questo evento."
 
-#: GestoreEventi/views.py:197
+#: GestoreEventi/views.py:394
 #, fuzzy
 #| msgid "you have successfully unregistered from"
 msgid "You have successfully unregistered from"
 msgstr "ti sei cancellato con successo da"
 
-#: GestoreEventi/views.py:199
+#: GestoreEventi/views.py:396
 #, fuzzy
 #| msgid "you are not registered for this event."
 msgid "You are not registered for this event."
 msgstr "non sei registrato per questo evento."
 
-#: GestoreEventi/views.py:215
+#: GestoreEventi/views.py:412
 #, fuzzy
 #| msgid "you do not have permission to view the attendees of this event."
 msgid "You do not have permission to view the attendees of this event."
 msgstr "non hai il permesso di visualizzare i partecipanti di questo evento."
 
-#: GestoreEventi/views.py:225
+#: GestoreEventi/views.py:432
 #, fuzzy, python-brace-format
 #| msgid "You are already registered for this event."
-msgid "User {user.username} has been added to the event."
+msgid "User {user.username} has been added to the event{price_info}."
 msgstr "sei già registrato per questo evento."
 
-#: GestoreEventi/views.py:227
+#: GestoreEventi/views.py:434
 #, fuzzy, python-brace-format
 #| msgid "You are already registered for this event."
 msgid "User {user.username} is already registered for this event."
@@ -233,6 +312,7 @@ msgstr "aggiorna categoria"
 #: templates/GestoreEventi/category_list.html:4
 #: templates/GestoreEventi/category_list.html:9
 #: templates/GestoreEventi/category_list.html:23
+#: templates/GestoreEventi/event_form.html:112
 #, fuzzy
 #| msgid "Categories"
 msgid "Categories"
@@ -324,7 +404,7 @@ msgstr ""
 
 #: templates/GestoreEventi/event_attendees.html:13
 #: templates/GestoreEventi/event_dashboard.html:38
-#: templates/GestoreEventi/event_list.html:75
+#: templates/GestoreEventi/event_list.html:114
 #, fuzzy
 #| msgid "location"
 msgid "Location"
@@ -360,40 +440,44 @@ msgid "Phone"
 msgstr "telefono"
 
 #: templates/GestoreEventi/event_attendees.html:39
+msgid "Price Option"
+msgstr "Opzione di Prezzo"
+
+#: templates/GestoreEventi/event_attendees.html:40
 #, fuzzy
 #| msgid "registered on"
 msgid "Registered On"
 msgstr "registrato il"
 
-#: templates/GestoreEventi/event_attendees.html:59
+#: templates/GestoreEventi/event_attendees.html:61
 #, fuzzy
 #| msgid "no attendees have registered for this event yet."
 msgid "No attendees have registered for this event yet."
 msgstr "nessun partecipante si è ancora registrato per questo evento."
 
-#: templates/GestoreEventi/event_attendees.html:68
+#: templates/GestoreEventi/event_attendees.html:70
 #, fuzzy
 #| msgid "add attendee"
 msgid "Add Attendee"
 msgstr "aggiungi partecipante"
 
-#: templates/GestoreEventi/event_attendees.html:75
+#: templates/GestoreEventi/event_attendees.html:77
 msgid "Add User"
 msgstr ""
 
-#: templates/GestoreEventi/event_attendees.html:79
+#: templates/GestoreEventi/event_attendees.html:81
 #, fuzzy
 #| msgid "this event is full. you cannot add more attendees."
 msgid "This event is full. You cannot add more attendees."
 msgstr "questo evento è completo. non puoi aggiungere altri partecipanti."
 
-#: templates/GestoreEventi/event_attendees.html:90
+#: templates/GestoreEventi/event_attendees.html:92
 #, fuzzy
 #| msgid "Back to events"
 msgid "Back to Event"
 msgstr "torna agli eventi"
 
-#: templates/GestoreEventi/event_attendees.html:91
+#: templates/GestoreEventi/event_attendees.html:93
 #, fuzzy
 #| msgid "print attendee list"
 msgid "Print Attendee List"
@@ -500,11 +584,12 @@ msgid "available spots"
 msgstr "posti disponibili"
 
 #: templates/GestoreEventi/event_detail.html:59
+#: templates/GestoreEventi/event_detail.html:105
 msgid "full"
 msgstr ""
 
 #: templates/GestoreEventi/event_detail.html:61
-#: templates/GestoreEventi/event_list.html:68
+#: templates/GestoreEventi/event_list.html:106
 msgid "spots left"
 msgstr "posti rimasti"
 
@@ -514,36 +599,67 @@ msgstr "posti rimasti"
 msgid "no categories"
 msgstr "nessuna categoria"
 
-#: templates/GestoreEventi/event_detail.html:83
+#: templates/GestoreEventi/event_detail.html:90
+msgid "option"
+msgstr "opzione"
+
+#: templates/GestoreEventi/event_detail.html:92
+#, fuzzy
+#| msgid "max seats"
+msgid "seats"
+msgstr "posti massimi"
+
+#: templates/GestoreEventi/event_detail.html:93
+#, fuzzy
+#| msgid "Available spots"
+msgid "available"
+msgstr "posti disponibili"
+
+#: templates/GestoreEventi/event_detail.html:119
+msgid "no price information"
+msgstr "nessuna informazione sul prezzo"
+
+#: templates/GestoreEventi/event_detail.html:127
 #: templates/GestoreEventi/my_registrations.html:47
 msgid "unregister"
 msgstr "annulla registrazione"
 
-#: templates/GestoreEventi/event_detail.html:86
+#: templates/GestoreEventi/event_detail.html:130
 #, fuzzy
 #| msgid "Event is full"
 msgid "event is full"
 msgstr "l'evento è completo"
 
-#: templates/GestoreEventi/event_detail.html:88
+#: templates/GestoreEventi/event_detail.html:135
+#: templates/GestoreEventi/event_detail.html:160
+#: templates/GestoreEventi/event_detail.html:167
 #, fuzzy
 #| msgid "unregister"
 msgid "register"
 msgstr "annulla registrazione"
 
-#: templates/GestoreEventi/event_detail.html:92
+#: templates/GestoreEventi/event_detail.html:143
+msgid "select price option"
+msgstr "seleziona opzione di prezzo"
+
+#: templates/GestoreEventi/event_detail.html:159
+#: templates/GestoreEventi/event_form.html:237
+msgid "cancel"
+msgstr "annulla"
+
+#: templates/GestoreEventi/event_detail.html:172
 #, fuzzy
 #| msgid "Login to register to the event"
 msgid "login to register to the event"
 msgstr "accedi per registrarti all'evento"
 
-#: templates/GestoreEventi/event_detail.html:104
+#: templates/GestoreEventi/event_detail.html:184
 #, fuzzy
 #| msgid "Organizer actions"
 msgid "organizer actions"
 msgstr "azioni organizzatore"
 
-#: templates/GestoreEventi/event_detail.html:108
+#: templates/GestoreEventi/event_detail.html:188
 #: templates/GestoreEventi/event_form.html:5
 #: templates/GestoreEventi/event_form.html:11
 #, fuzzy
@@ -551,19 +667,19 @@ msgstr "azioni organizzatore"
 msgid "edit event"
 msgstr "modifica evento"
 
-#: templates/GestoreEventi/event_detail.html:109
+#: templates/GestoreEventi/event_detail.html:189
 #, fuzzy
 #| msgid "Delete event"
 msgid "delete event"
 msgstr "elimina evento"
 
-#: templates/GestoreEventi/event_detail.html:110
+#: templates/GestoreEventi/event_detail.html:190
 #, fuzzy
 #| msgid "View attendees"
 msgid "view attendees"
 msgstr "visualizza partecipanti"
 
-#: templates/GestoreEventi/event_detail.html:120
+#: templates/GestoreEventi/event_detail.html:200
 #, fuzzy
 #| msgid "Back to events"
 msgid "back to events"
@@ -571,33 +687,64 @@ msgstr "torna agli eventi"
 
 #: templates/GestoreEventi/event_form.html:5
 #: templates/GestoreEventi/event_form.html:11
-#: templates/GestoreEventi/event_form.html:73
+#: templates/GestoreEventi/event_form.html:234
 #, fuzzy
 #| msgid "Create event"
 msgid "create event"
 msgstr "crea evento"
 
-#: templates/GestoreEventi/event_form.html:52
+#: templates/GestoreEventi/event_form.html:43
+msgid "Price Options"
+msgstr "Opzioni di prezzo"
+
+#: templates/GestoreEventi/event_form.html:44
+msgid "Add different price options for your event (e.g., VIP, Standard, etc.)"
+msgstr ""
+"Aggiungi diverse opzioni di prezzo per il tuo evento (es. VIP, Standard, "
+"ecc.)"
+
+#: templates/GestoreEventi/event_form.html:62
+msgid "Option Name"
+msgstr "Nome opzione"
+
+#: templates/GestoreEventi/event_form.html:73
+#, fuzzy
+#| msgid "price"
+msgid "Price"
+msgstr "prezzo"
+
+#: templates/GestoreEventi/event_form.html:84
+#, fuzzy
+#| msgid "max seats"
+msgid "Max Seats"
+msgstr "posti massimi"
+
+#: templates/GestoreEventi/event_form.html:96
+#: templates/GestoreEventi/event_form.html:199
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: templates/GestoreEventi/event_form.html:106
+msgid "Add Price Option"
+msgstr "Aggiungi opzione di prezzo"
+
+#: templates/GestoreEventi/event_form.html:130
 #, fuzzy
 #| msgid "No categories available yet."
 msgid "no categories available. "
 msgstr "nessuna categoria disponibile ancora."
 
-#: templates/GestoreEventi/event_form.html:53
+#: templates/GestoreEventi/event_form.html:131
 #, fuzzy
 #| msgid "Create Category"
 msgid "create a category"
 msgstr "crea categoria"
 
-#: templates/GestoreEventi/event_form.html:73
+#: templates/GestoreEventi/event_form.html:234
 #, fuzzy
 #| msgid "Update event"
 msgid "update event"
 msgstr "aggiorna evento"
-
-#: templates/GestoreEventi/event_form.html:76
-msgid "cancel"
-msgstr "annulla"
 
 #: templates/GestoreEventi/event_list.html:20
 #, fuzzy
@@ -605,55 +752,79 @@ msgstr "annulla"
 msgid "All Categories"
 msgstr "tutte le categorie"
 
-#: templates/GestoreEventi/event_list.html:40
+#: templates/GestoreEventi/event_list.html:37
+msgid "Filter by Price"
+msgstr "Filtra per prezzo"
+
+#: templates/GestoreEventi/event_list.html:50
+msgid "Show only free events"
+msgstr "Mostra solo eventi gratuiti"
+
+#: templates/GestoreEventi/event_list.html:56
+#, fuzzy
+#| msgid "Minimum Price"
+msgid "Min Price"
+msgstr "Prezzo minimo"
+
+#: templates/GestoreEventi/event_list.html:61
+#, fuzzy
+#| msgid "Maximum Price"
+msgid "Max Price"
+msgstr "Prezzo massimo"
+
+#: templates/GestoreEventi/event_list.html:66
+msgid "Filter"
+msgstr "Filtra"
+
+#: templates/GestoreEventi/event_list.html:78
 #, fuzzy
 #| msgid "showing events in category"
 msgid "Showing events in category"
 msgstr "mostra eventi nella categoria"
 
-#: templates/GestoreEventi/event_list.html:66
+#: templates/GestoreEventi/event_list.html:104
 msgid "Full"
 msgstr ""
 
-#: templates/GestoreEventi/event_list.html:71
+#: templates/GestoreEventi/event_list.html:109
 #, fuzzy
 #| msgid "view details"
 msgid "View details"
 msgstr "visualizza dettagli"
 
-#: templates/GestoreEventi/event_list.html:87
-#: templates/GestoreEventi/event_list.html:94
+#: templates/GestoreEventi/event_list.html:132
+#: templates/GestoreEventi/event_list.html:139
 #, fuzzy
 #| msgid "first"
 msgid "First"
 msgstr "primo"
 
-#: templates/GestoreEventi/event_list.html:90
-#: templates/GestoreEventi/event_list.html:97
+#: templates/GestoreEventi/event_list.html:135
+#: templates/GestoreEventi/event_list.html:142
 #, fuzzy
 #| msgid "previous"
 msgid "Previous"
 msgstr "precedente"
 
-#: templates/GestoreEventi/event_list.html:103
+#: templates/GestoreEventi/event_list.html:148
 msgid "Page"
 msgstr ""
 
-#: templates/GestoreEventi/event_list.html:103
+#: templates/GestoreEventi/event_list.html:148
 msgid "of"
 msgstr "di"
 
-#: templates/GestoreEventi/event_list.html:109
-#: templates/GestoreEventi/event_list.html:116
+#: templates/GestoreEventi/event_list.html:154
+#: templates/GestoreEventi/event_list.html:161
 msgid "Next"
 msgstr ""
 
-#: templates/GestoreEventi/event_list.html:112
-#: templates/GestoreEventi/event_list.html:119
+#: templates/GestoreEventi/event_list.html:157
+#: templates/GestoreEventi/event_list.html:164
 msgid "Last"
 msgstr ""
 
-#: templates/GestoreEventi/event_list.html:127
+#: templates/GestoreEventi/event_list.html:172
 #, fuzzy
 #| msgid "no events available at the moment."
 msgid "No events available at the moment."
@@ -881,9 +1052,6 @@ msgstr "account creato con successo! ora sei connesso come"
 msgid "You have been successfully logged out."
 msgstr "sei stato disconnesso con successo."
 
-#~ msgid "name"
-#~ msgstr "nome"
-
 #~ msgid "slug"
 #~ msgstr "slug"
 
@@ -957,86 +1125,8 @@ msgstr "sei stato disconnesso con successo."
 #~ msgstr "biografia"
 
 # Price-related translations
-msgid "free event"
-msgstr "evento gratuito"
+#~ msgid "free event"
+#~ msgstr "evento gratuito"
 
-msgid "price"
-msgstr "prezzo"
-
-msgid "currency"
-msgstr "valuta"
-
-msgid "Free"
-msgstr "Gratis"
-
-msgid "Filter by Price"
-msgstr "Filtra per prezzo"
-
-msgid "Show only free events"
-msgstr "Mostra solo eventi gratuiti"
-
-msgid "Minimum Price"
-msgstr "Prezzo minimo"
-
-msgid "Maximum Price"
-msgstr "Prezzo massimo"
-
-msgid "Filter"
-msgstr "Filtra"
-
-msgid "Price Options"
-msgstr "Opzioni di prezzo"
-
-msgid "Add different price options for your event (e.g., VIP, Standard, etc.)"
-msgstr "Aggiungi diverse opzioni di prezzo per il tuo evento (es. VIP, Standard, ecc.)"
-
-msgid "Option Name"
-msgstr "Nome opzione"
-
-msgid "Add Price Option"
-msgstr "Aggiungi opzione di prezzo"
-
-msgid "Remove"
-msgstr "Rimuovi"
-
-msgid "no price information"
-msgstr "nessuna informazione sul prezzo"
-
-msgid "option"
-msgstr "opzione"
-
-msgid "name"
-msgstr "nome"
-
-msgid "max seats"
-msgstr "posti massimi"
-
-msgid "price option"
-msgstr "opzione di prezzo"
-
-msgid "select price option"
-msgstr "seleziona opzione di prezzo"
-
-msgid "this price option is already full."
-msgstr "questa opzione di prezzo è già completa."
-
-msgid "from %(min_price)s € to %(max_price)s €"
-msgstr "da %(min_price)s € a %(max_price)s €"
-
-msgid "Price Option"
-msgstr "Opzione di Prezzo"
-
-msgid "The sum of max seats (%(total)s) exceeds the event's maximum attendees (%(max)s). Please reduce the number of seats."
-msgstr "La somma dei posti massimi (%(total)s) supera il numero massimo di partecipanti dell'evento (%(max)s). Si prega di ridurre il numero di posti."
-
-msgid "Cannot reduce max seats to %(new)s for price option '%(name)s' as there are already %(current)s registrations."
-msgstr "Impossibile ridurre i posti massimi a %(new)s per l'opzione di prezzo '%(name)s' poiché ci sono già %(current)s registrazioni."
-
-msgid "The max seats (%(seats)s) for the new price option exceeds the remaining available seats (%(remaining)s) for this event."
-msgstr "I posti massimi (%(seats)s) per la nuova opzione di prezzo superano i posti disponibili rimanenti (%(remaining)s) per questo evento."
-
-msgid "At least one price option is required. Please add a price option."
-msgstr "È richiesta almeno un'opzione di prezzo. Si prega di aggiungere un'opzione di prezzo."
-
-msgid "At least one price option must have a price value (can be 0 for free events)."
-msgstr "Almeno un'opzione di prezzo deve avere un valore di prezzo (può essere 0 per eventi gratuiti)."
+#~ msgid "currency"
+#~ msgstr "valuta"

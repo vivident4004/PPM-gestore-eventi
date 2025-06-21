@@ -3,8 +3,15 @@ from django.db.models.functions import Lower
 from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.utils.formats import number_format
 
 # Create your models here.
+def format_price(price):
+    """Format a price with the Euro symbol using the current locale's decimal separator."""
+    if price is None:
+        return ""
+    return f"{number_format(price, decimal_pos=2)} €"
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
@@ -26,7 +33,7 @@ class PriceOption(models.Model):
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='price_options')
 
     def __str__(self):
-        return f"{self.name}: {self.price} €"
+        return f"{self.name}: {format_price(self.price)}"
 
     def is_free(self):
         return self.price == 0
@@ -127,7 +134,7 @@ class Event(models.Model):
         min_price = self.get_min_price()
         if min_price is None:
             return ""
-        return f"{min_price} €"
+        return format_price(min_price)
 
     def get_price_range(self):
         """Return a string with the price range (from min to max) or just the price if there's only one option."""
@@ -156,9 +163,9 @@ class Event(models.Model):
         max_price = max(option.price for option in non_free_options)
 
         if min_price == max_price:
-            return f"{min_price} €"
+            return format_price(min_price)
         else:
-            return _("from %(min_price)s € to %(max_price)s €") % {'min_price': min_price, 'max_price': max_price}
+            return _("from %(min_price)s € to %(max_price)s €") % {'min_price': number_format(min_price, decimal_pos=2), 'max_price': number_format(max_price, decimal_pos=2)}
 
 class Registration(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
