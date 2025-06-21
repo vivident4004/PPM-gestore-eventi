@@ -6,6 +6,16 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.forms import inlineformset_factory, modelformset_factory
 
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('Search events by title, description or location')
+        }),
+        label=_('Search')
+    )
+
 class EventForm(forms.ModelForm):
     new_categories = forms.CharField(
         required=False,

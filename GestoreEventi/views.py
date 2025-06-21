@@ -12,7 +12,7 @@ from django.db.models.functions import Lower
 from django.db.models import Q
 
 from .models import Event, Registration, Category, PriceOption
-from .forms import EventForm, AddAttendeeForm, CategoryForm, PriceOptionFormSet
+from .forms import EventForm, AddAttendeeForm, CategoryForm, PriceOptionFormSet, SearchForm
 
 # Event Views
 class EventListView(ListView):
@@ -30,6 +30,15 @@ class EventListView(ListView):
         if category_slug:
             category = get_object_or_404(Category, slug=category_slug)
             queryset = queryset.filter(categories=category)
+
+        # Handle search query
+        search_query = self.request.GET.get('query', '').strip()
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) | 
+                Q(description__icontains=search_query) | 
+                Q(location__icontains=search_query)
+            ).distinct()
 
         # Filter by price
         free_only = self.request.GET.get('free_only')
@@ -109,6 +118,11 @@ class EventListView(ListView):
         category_slug = self.kwargs.get('category_slug')
         if category_slug:
             context['current_category'] = get_object_or_404(Category, slug=category_slug)
+
+        # Add search form to context
+        search_query = self.request.GET.get('query', '')
+        context['search_form'] = SearchForm(initial={'query': search_query})
+        context['search_query'] = search_query
 
         # Add price filter parameters to context
         context['free_only'] = self.request.GET.get('free_only', '')

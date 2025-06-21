@@ -10,20 +10,54 @@
     </div>
 </div>
 
+<!-- Global Search Section -->
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-body py-3">
+                <form method="get" class="d-flex">
+                    <!-- Preserve category filter if present -->
+                    {% if current_category %}
+                        <input type="hidden" name="category" value="{{ current_category.slug }}">
+                    {% endif %}
+                    <!-- Preserve price filters if present -->
+                    {% if free_only %}
+                        <input type="hidden" name="free_only" value="{{ free_only }}">
+                    {% endif %}
+                    {% if min_price %}
+                        <input type="hidden" name="min_price" value="{{ min_price }}">
+                    {% endif %}
+                    {% if max_price %}
+                        <input type="hidden" name="max_price" value="{{ max_price }}">
+                    {% endif %}
+
+                    <div class="flex-grow-1 me-2">
+                        {{ search_form.query }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">{% trans "Search"|capfirst %}</button>
+                    {% if search_query %}
+                        <a href="{% if current_category %}{% url 'event-list-by-category' current_category.slug %}{% else %}{% url 'event-list' %}{% endif %}{% if free_only %}?free_only={{ free_only }}{% endif %}{% if min_price %}{% if free_only %}&{% else %}?{% endif %}min_price={{ min_price }}{% endif %}{% if max_price %}{% if free_only or min_price %}&{% else %}?{% endif %}max_price={{ max_price }}{% endif %}" class="btn btn-outline-secondary ms-2">{% trans "Clear"|capfirst %}</a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Category Navigation and Price Filter Section -->
 <div class="row mb-4">
     <div class="col-md-8">
         <div class="category-nav">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <a class="nav-link {% if not current_category %}active{% endif %}" href="{% url 'event-list' %}">
+                    <a class="nav-link {% if not current_category %}active{% endif %}" href="{% url 'event-list' %}{% if search_query %}?query={{ search_query }}{% endif %}{% if free_only %}{% if search_query %}&{% else %}?{% endif %}free_only={{ free_only }}{% endif %}{% if min_price %}{% if search_query or free_only %}&{% else %}?{% endif %}min_price={{ min_price }}{% endif %}{% if max_price %}{% if search_query or free_only or min_price %}&{% else %}?{% endif %}max_price={{ max_price }}{% endif %}">
                         {% trans "All Categories" %}
                     </a>
                 </li>
                 {% for category in categories %}
                 <li class="nav-item">
                     <a class="nav-link {% if current_category.slug == category.slug %}active{% endif %}" 
-                       href="{% url 'event-list-by-category' category.slug %}">
+                       href="{% url 'event-list-by-category' category.slug %}{% if search_query %}?query={{ search_query }}{% endif %}{% if free_only %}{% if search_query %}&{% else %}?{% endif %}free_only={{ free_only }}{% endif %}{% if min_price %}{% if search_query or free_only %}&{% else %}?{% endif %}min_price={{ min_price }}{% endif %}{% if max_price %}{% if search_query or free_only or min_price %}&{% else %}?{% endif %}max_price={{ max_price }}{% endif %}">
                         {{ category.name }}
                     </a>
                 </li>
@@ -41,6 +75,10 @@
                     <!-- Preserve category filter if present -->
                     {% if current_category %}
                         <input type="hidden" name="category" value="{{ current_category.slug }}">
+                    {% endif %}
+                    <!-- Preserve search query if present -->
+                    {% if search_query %}
+                        <input type="hidden" name="query" value="{{ search_query }}">
                     {% endif %}
 
                     <div class="col-12">
@@ -71,11 +109,18 @@
     </div>
 </div>
 
-{% if current_category %}
+{% if current_category or search_query %}
 <div class="row mb-4">
     <div class="col">
         <div class="alert alert-info">
-            {% trans "Showing events in category" %}: <strong>{{ current_category.name }}</strong>
+            {% if current_category %}
+                {% trans "Showing events in category" %}: <strong>{{ current_category.name }}</strong>
+            {% endif %}
+
+            {% if search_query %}
+                {% if current_category %}<br>{% endif %}
+                {% trans "Search results for" %}: <strong>"{{ search_query }}"</strong> ({{ page_obj.paginator.count }} {% trans "results" %})
+            {% endif %}
         </div>
     </div>
 </div>
@@ -129,10 +174,10 @@
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1">&laquo; {% trans "First" %}</a>
+                        <a class="page-link" href="{% if current_category %}{% url 'event-list-by-category' current_category.slug %}{% else %}{% url 'event-list' %}{% endif %}?page=1{% if search_query %}&query={{ search_query }}{% endif %}{% if free_only %}&free_only={{ free_only }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">&laquo; {% trans "First" %}</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
+                        <a class="page-link" href="{% if current_category %}{% url 'event-list-by-category' current_category.slug %}{% else %}{% url 'event-list' %}{% endif %}?page={{ page_obj.previous_page_number }}{% if search_query %}&query={{ search_query }}{% endif %}{% if free_only %}&free_only={{ free_only }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">{% trans "Previous" %}</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -151,10 +196,10 @@
 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
+                        <a class="page-link" href="{% if current_category %}{% url 'event-list-by-category' current_category.slug %}{% else %}{% url 'event-list' %}{% endif %}?page={{ page_obj.next_page_number }}{% if search_query %}&query={{ search_query }}{% endif %}{% if free_only %}&free_only={{ free_only }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">{% trans "Next" %}</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{% trans "Last" %} &raquo;</a>
+                        <a class="page-link" href="{% if current_category %}{% url 'event-list-by-category' current_category.slug %}{% else %}{% url 'event-list' %}{% endif %}?page={{ page_obj.paginator.num_pages }}{% if search_query %}&query={{ search_query }}{% endif %}{% if free_only %}&free_only={{ free_only }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">{% trans "Last" %} &raquo;</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
