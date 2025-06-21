@@ -83,7 +83,7 @@ class Event(models.Model):
     def is_free(self):
         """Return True if all price options are 0 or there are no price options."""
         if not self.price_options.exists():
-            return False
+            return True  # If there are no price options, consider it free
         return all(option.is_free() for option in self.price_options.all())
 
     def get_min_price(self):
@@ -131,6 +131,10 @@ class Event(models.Model):
 
     def get_price_range(self):
         """Return a string with the price range (from min to max) or just the price if there's only one option."""
+        # Check if there are any price options
+        if not self.price_options.exists():
+            return _("Free")  # If no price options, display as free
+
         # Check if is_free is a boolean or a callable method
         if isinstance(self.is_free, bool):
             is_free_value = self.is_free
@@ -140,11 +144,16 @@ class Event(models.Model):
         if is_free_value:
             return _("Free")
 
-        min_price = self.get_min_price()
-        max_price = self.get_max_price()
+        # Get all non-empty price options (price > 0)
+        non_free_options = self.price_options.filter(price__gt=0)
 
-        if min_price is None:
-            return ""
+        # If there are no non-free options, return "Free"
+        if not non_free_options.exists():
+            return _("Free")
+
+        # Calculate min and max prices from non-free options
+        min_price = min(option.price for option in non_free_options)
+        max_price = max(option.price for option in non_free_options)
 
         if min_price == max_price:
             return f"{min_price} €"

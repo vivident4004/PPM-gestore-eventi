@@ -1025,3 +1025,18 @@ msgstr "da %(min_price)s € a %(max_price)s €"
 
 msgid "Price Option"
 msgstr "Opzione di Prezzo"
+
+msgid "The sum of max seats (%(total)s) exceeds the event's maximum attendees (%(max)s). Please reduce the number of seats."
+msgstr "La somma dei posti massimi (%(total)s) supera il numero massimo di partecipanti dell'evento (%(max)s). Si prega di ridurre il numero di posti."
+
+msgid "Cannot reduce max seats to %(new)s for price option '%(name)s' as there are already %(current)s registrations."
+msgstr "Impossibile ridurre i posti massimi a %(new)s per l'opzione di prezzo '%(name)s' poiché ci sono già %(current)s registrazioni."
+
+msgid "The max seats (%(seats)s) for the new price option exceeds the remaining available seats (%(remaining)s) for this event."
+msgstr "I posti massimi (%(seats)s) per la nuova opzione di prezzo superano i posti disponibili rimanenti (%(remaining)s) per questo evento."
+
+msgid "At least one price option is required. Please add a price option."
+msgstr "È richiesta almeno un'opzione di prezzo. Si prega di aggiungere un'opzione di prezzo."
+
+msgid "At least one price option must have a price value (can be 0 for free events)."
+msgstr "Almeno un'opzione di prezzo deve avere un valore di prezzo (può essere 0 per eventi gratuiti)."

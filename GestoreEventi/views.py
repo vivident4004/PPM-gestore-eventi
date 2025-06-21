@@ -198,15 +198,22 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
-        response = super().form_valid(form)
+
+        # Create the event instance but don't save it to the database yet
+        self.object = form.save(commit=False)
 
         # Process price formset
         price_formset = PriceOptionFormSet(self.request.POST, instance=self.object)
-        if price_formset.is_valid():
-            price_formset.save()
-        else:
+        if not price_formset.is_valid():
             # If the formset is not valid, return to the form with errors
             return self.form_invalid(form)
+
+        # Save the event to the database
+        self.object.save()
+        form.save_m2m()  # Save many-to-many relationships
+
+        # Save the price formset
+        price_formset.save()
 
         # Process new categories
         new_categories_text = form.cleaned_data.get('new_categories', '')
@@ -248,15 +255,21 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        # Create the event instance but don't save it to the database yet
+        self.object = form.save(commit=False)
 
         # Process price formset
         price_formset = PriceOptionFormSet(self.request.POST, instance=self.object)
-        if price_formset.is_valid():
-            price_formset.save()
-        else:
+        if not price_formset.is_valid():
             # If the formset is not valid, return to the form with errors
             return self.form_invalid(form)
+
+        # Save the event to the database
+        self.object.save()
+        form.save_m2m()  # Save many-to-many relationships
+
+        # Save the price formset
+        price_formset.save()
 
         # Process new categories
         new_categories_text = form.cleaned_data.get('new_categories', '')

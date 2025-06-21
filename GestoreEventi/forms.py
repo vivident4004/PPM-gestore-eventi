@@ -119,6 +119,34 @@ class BasePriceOptionFormSet(forms.BaseInlineFormSet):
         event = self.instance
         max_attendees = event.max_attendees
 
+        # Check if there's at least one valid price option
+        valid_forms = 0
+        has_price_value = False
+
+        for form in self.forms:
+            if self.can_delete and self._should_delete_form(form):
+                continue
+
+            # Count valid forms
+            if form.cleaned_data:
+                valid_forms += 1
+
+                # Check if any price option has a price value
+                if form.cleaned_data.get('price') is not None:
+                    has_price_value = True
+
+        # Ensure at least one valid price option
+        if valid_forms == 0:
+            raise forms.ValidationError(
+                _("At least one price option is required. Please add a price option."),
+            )
+
+        # Ensure at least one price option has a price value
+        if not has_price_value:
+            raise forms.ValidationError(
+                _("At least one price option must have a price value (can be 0 for free events)."),
+            )
+
         # Calculate the sum of max_seats
         total_max_seats = 0
         for form in self.forms:
@@ -132,9 +160,46 @@ class BasePriceOptionFormSet(forms.BaseInlineFormSet):
         # Validate that the sum doesn't exceed max_attendees
         if total_max_seats > max_attendees:
             raise forms.ValidationError(
-                _("The sum of max seats (%(total)s) exceeds the event's maximum attendees (%(max)s)."),
+                _("The sum of max seats (%(total)s) exceeds the event's maximum attendees (%(max)s). Please reduce the number of seats."),
                 params={'total': total_max_seats, 'max': max_attendees},
             )
+
+        # For existing events, check if new/modified price options exceed available seats
+        if event.pk:  # Only for existing events
+            for form in self.forms:
+                if self.can_delete and self._should_delete_form(form):
+                    continue
+
+                # Get the price option instance and the new max_seats value
+                instance = form.instance
+                new_max_seats = form.cleaned_data.get('max_seats')
+
+                # Skip if no max_seats specified
+                if not new_max_seats:
+                    continue
+
+                # If this is an existing price option being modified
+                if instance.pk:
+                    # Get current registrations for this price option
+                    current_registrations = instance.registrations.count()
+
+                    # Check if new max_seats is less than current registrations
+                    if new_max_seats < current_registrations:
+                        raise forms.ValidationError(
+                            _("Cannot reduce max seats to %(new)s for price option '%(name)s' as there are already %(current)s registrations."),
+                            params={'new': new_max_seats, 'name': instance.name, 'current': current_registrations},
+                        )
+                # If this is a new price option being added
+                else:
+                    # Calculate remaining available seats in the event
+                    remaining_seats = event.available_spots()
+
+                    # Check if new price option's max_seats exceeds remaining available seats
+                    if new_max_seats > remaining_seats:
+                        raise forms.ValidationError(
+                            _("The max seats (%(seats)s) for the new price option exceeds the remaining available seats (%(remaining)s) for this event."),
+                            params={'seats': new_max_seats, 'remaining': remaining_seats},
+                        )
 
 # Create a formset for PriceOption
 PriceOptionFormSet = inlineformset_factory(
@@ -159,11 +224,18 @@ class PriceOptionSelectionForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Only show price options for this event
-        self.fields['price_option'].queryset = event.price_options.all().order_by('price')
+        price_options = event.price_options.all().order_by('price')
+        self.fields['price_option'].queryset = price_options
+
+        # Get non-empty price options (price > 0)
+        non_free_options = price_options.filter(price__gt=0)
 
         # If there's only one price option, select it by default
-        if event.price_options.count() == 1:
-            self.fields['price_option'].initial = event.price_options.first()
+        if price_options.count() == 1:
+            self.fields['price_option'].initial = price_options.first()
+        # If there are multiple options but only one non-free option, select it by default
+        elif non_free_options.count() == 1 and price_options.count() > 1:
+            self.fields['price_option'].initial = non_free_options.first()
 
 
 class AddAttendeeForm(forms.Form):
@@ -187,8 +259,15 @@ class AddAttendeeForm(forms.Form):
         self.fields['user'].queryset = get_user_model().objects.exclude(id__in=registered_users)
 
         # Only show price options for this event
-        self.fields['price_option'].queryset = event.price_options.all().order_by('price')
+        price_options = event.price_options.all().order_by('price')
+        self.fields['price_option'].queryset = price_options
+
+        # Get non-empty price options (price > 0)
+        non_free_options = price_options.filter(price__gt=0)
 
         # If there's only one price option, select it by default
-        if event.price_options.count() == 1:
-            self.fields['price_option'].initial = event.price_options.first()
+        if price_options.count() == 1:
+            self.fields['price_option'].initial = price_options.first()
+        # If there are multiple options but only one non-free option, select it by default
+        elif non_free_options.count() == 1 and price_options.count() > 1:
+            self.fields['price_option'].initial = non_free_options.first()
