@@ -10,6 +10,77 @@
     </div>
 </div>
 
+<!-- Category Navigation and Price Filter Section -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="category-nav">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link {% if not current_category %}active{% endif %}" href="{% url 'event-list' %}">
+                        {% trans "All Categories" %}
+                    </a>
+                </li>
+                {% for category in categories %}
+                <li class="nav-item">
+                    <a class="nav-link {% if current_category.slug == category.slug %}active{% endif %}" 
+                       href="{% url 'event-list-by-category' category.slug %}">
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header py-2">
+                <h6 class="mb-0">{% trans "Filter by Price"|capfirst %}</h6>
+            </div>
+            <div class="card-body py-2">
+                <form method="get" class="row g-2">
+                    <!-- Preserve category filter if present -->
+                    {% if current_category %}
+                        <input type="hidden" name="category" value="{{ current_category.slug }}">
+                    {% endif %}
+
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="free_only" name="free_only" value="1" {% if free_only %}checked{% endif %}>
+                            <label class="form-check-label" for="free_only">
+                                {% trans "Show only free events"|capfirst %}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-5">
+                        <label for="min_price" class="form-label small">{% trans "Min Price"|capfirst %}</label>
+                        <input type="number" class="form-control form-control-sm" id="min_price" name="min_price" min="0" step="0.01" value="{{ min_price }}">
+                    </div>
+
+                    <div class="col-5">
+                        <label for="max_price" class="form-label small">{% trans "Max Price"|capfirst %}</label>
+                        <input type="number" class="form-control form-control-sm" id="max_price" name="max_price" min="0" step="0.01" value="{{ max_price }}">
+                    </div>
+
+                    <div class="col-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-sm w-100">{% trans "Filter"|capfirst %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if current_category %}
+<div class="row mb-4">
+    <div class="col">
+        <div class="alert alert-info">
+            {% trans "Showing events in category" %}: <strong>{{ current_category.name }}</strong>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% if events %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for event in events %}
@@ -38,8 +109,15 @@
                             <a href="{% url 'event-detail' event.pk %}" class="btn btn-primary">{% trans "View details" %}</a>
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        <small>{% trans "Location" %}: {{ event.location }}</small>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">{% trans "Location" %}: {{ event.location }}</small>
+                            {% if event.is_free %}
+                                <span class="badge bg-success">{{ event.price_display }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ event.price_display }}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

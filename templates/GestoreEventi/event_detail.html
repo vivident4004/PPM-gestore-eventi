@@ -8,10 +8,10 @@
     <div class="col">
         <h1>{{ event.title }}</h1>
         <p class="text-muted">
-            <strong>{% trans "Date" %}:</strong> {{ event.formatted_date }}
+            <strong>{% trans "date"|capfirst %}:</strong> {{ event.formatted_date }}
             {% if event.has_end_date %} - {{ event.formatted_end_date }}{% endif %} |
-            <strong>{% trans "Location" %}:</strong> {{ event.location }} | 
-            <strong>{% trans "Organizer" %}:</strong> {{ event.organizer.username }}
+            <strong>{% trans "location"|capfirst %}:</strong> {{ event.location }} | 
+            <strong>{% trans "organizer"|capfirst %}:</strong> {{ event.organizer.username }}
         </p>
     </div>
 </div>
@@ -20,7 +20,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h5>{% trans "Event description" %}</h5>
+                <h5>{% trans "event description"|capfirst %}</h5>
             </div>
             <div class="card-body">
                 {% if event.has_image %}
@@ -35,30 +35,88 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <h5>{% trans "Event details" %}</h5>
+                <h5>{% trans "event details"|capfirst %}</h5>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <strong>{% trans "Start Date" %}:</strong> {{ event.formatted_date }}
+                        <strong>{% trans "start date"|capfirst %}:</strong> {{ event.formatted_date }}
                     </li>
                     {% if event.has_end_date %}
                     <li class="list-group-item">
-                        <strong>{% trans "End Date" %}:</strong> {{ event.formatted_end_date }}
+                        <strong>{% trans "end date"|capfirst %}:</strong> {{ event.formatted_end_date }}
                     </li>
                     {% endif %}
                     <li class="list-group-item">
-                        <strong>{% trans "Location" %}:</strong> {{ event.location }}
+                        <strong>{% trans "location"|capfirst %}:</strong> {{ event.location }}
                     </li>
                     <li class="list-group-item">
                         <strong>{% trans "max attendees"|capfirst %}:</strong> {{ event.max_attendees }}
                     </li>
                     <li class="list-group-item">
-                        <strong>{% trans "Available spots" %}:</strong>
+                        <strong>{% trans "available spots"|capfirst %}:</strong>
                         {% if event.is_full %}
-                            <span class="badge bg-danger">{% trans "Full" %}</span>
+                            <span class="badge bg-danger">{% trans "full"|capfirst %}</span>
                         {% else %}
                             <span class="badge bg-success">{{ event.available_spots }} {% trans "spots left" %}</span>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% trans "categories"|capfirst %}:</strong>
+                        {% if event.categories.all %}
+                            <div class="mt-1">
+                                {% for category in event.categories.all %}
+                                    <a href="{% url 'event-list-by-category' category.slug %}" class="badge bg-primary text-decoration-none">
+                                        {{ category.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-muted">{% trans "no categories"|capfirst %}</span>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% trans "price"|capfirst %}:</strong>
+                        {% if event.is_free %}
+                            <span class="badge bg-success">{{ event.price_display }}</span>
+                        {% elif price_options %}
+                            <div class="mb-2">
+                                <span class="badge bg-primary">{{ event.get_price_range }}</span>
+                            </div>
+                            <div class="mt-2">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans "option"|capfirst %}</th>
+                                            <th>{% trans "price"|capfirst %}</th>
+                                            <th>{% trans "seats"|capfirst %}</th>
+                                            <th>{% trans "available"|capfirst %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for option in price_options %}
+                                            <tr>
+                                                <td>{{ option.name }}</td>
+                                                <td>{{ option.price }} €</td>
+                                                <td>{% if option.max_seats %}{{ option.max_seats }}{% else %}-{% endif %}</td>
+                                                <td>
+                                                    {% if option.max_seats %}
+                                                        {% if option.is_full %}
+                                                            <span class="badge bg-danger">{% trans "full"|capfirst %}</span>
+                                                        {% else %}
+                                                            <span class="badge bg-success">{{ option.available_spots }}</span>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <span class="text-muted">{% trans "no price information"|capfirst %}</span>
                         {% endif %}
                     </li>
                 </ul>
@@ -66,16 +124,52 @@
             <div class="card-footer">
                 {% if user.is_authenticated %}
                     {% if is_registered %}
-                        <a href="{% url 'event-unregister' event.pk %}" class="btn btn-danger w-100">{% trans "Unregister" %}</a>
+                        <a href="{% url 'event-unregister' event.pk %}" class="btn btn-danger w-100">{% trans "unregister"|capfirst %}</a>
                     {% else %}
                         {% if event.is_full %}
-                            <button class="btn btn-secondary w-100" disabled>{% trans "Event is full" %}</button>
+                            <button class="btn btn-secondary w-100" disabled>{% trans "event is full"|capfirst %}</button>
                         {% else %}
-                            <a href="{% url 'event-register' event.pk %}" class="btn btn-success w-100">{% trans "Register" %}</a>
+                            {% if price_options.count > 1 %}
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#registerModal">
+                                    {% trans "register"|capfirst %}
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="registerModalLabel">{% trans "select price option"|capfirst %}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="post" action="{% url 'event-register' event.pk %}">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">{% trans "price option"|capfirst %}</label>
+                                                        <select name="price_option" class="form-select" required>
+                                                            {% for option in price_options %}
+                                                                <option value="{{ option.id }}">{{ option.name }} - {{ option.price }} €</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "cancel"|capfirst %}</button>
+                                                    <button type="submit" class="btn btn-success">{% trans "register"|capfirst %}</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <a href="{% url 'event-register' event.pk %}" class="btn btn-success w-100">{% trans "register"|capfirst %}</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 {% else %}
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary w-100">{% trans "Login to register to the event" %}</a>
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary w-100">{% trans "login to register to the event"|capfirst %}</a>
                 {% endif %}
             </div>
         </div>
@@ -87,13 +181,13 @@
     <div class="col">
         <div class="card">
             <div class="card-header">
-                <h5>{% trans "Organizer actions" %}</h5>
+                <h5>{% trans "organizer actions"|capfirst %}</h5>
             </div>
             <div class="card-body">
                 <div class="d-flex gap-2">
-                    <a href="{% url 'event-update' event.pk %}" class="btn btn-warning">{% trans "Edit event" %}</a>
-                    <a href="{% url 'event-delete' event.pk %}" class="btn btn-danger">{% trans "Delete event" %}</a>
-                    <a href="{% url 'event-attendees' event.pk %}" class="btn btn-info">{% trans "View attendees" %}</a>
+                    <a href="{% url 'event-update' event.pk %}" class="btn btn-warning">{% trans "edit event"|capfirst %}</a>
+                    <a href="{% url 'event-delete' event.pk %}" class="btn btn-danger">{% trans "delete event"|capfirst %}</a>
+                    <a href="{% url 'event-attendees' event.pk %}" class="btn btn-info">{% trans "view attendees"|capfirst %}</a>
                 </div>
             </div>
         </div>
@@ -103,7 +197,7 @@
 
 <div class="row">
     <div class="col">
-        <a href="{% url 'event-list' %}" class="btn btn-outline-secondary">{% trans "Back to events" %}</a>
+        <a href="{% url 'event-list' %}" class="btn btn-outline-secondary">{% trans "back to events"|capfirst %}</a>
     </div>
 </div>
 {% endblock %}

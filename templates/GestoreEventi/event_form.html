@@ -2,13 +2,13 @@
 {% load i18n %}
 
 {% block title %}
-    {% if form.instance.pk %}{% trans "Edit event" %}{% else %}{% trans "Create event" %}{% endif %}
+    {% if form.instance.pk %}{% trans "edit event"|capfirst %}{% else %}{% trans "create event"|capfirst %}{% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col">
-        <h1>{% if form.instance.pk %}{% trans "Edit event" %}{% else %}{% trans "Create event" %}{% endif %}</h1>
+        <h1>{% if form.instance.pk %}{% trans "edit event"|capfirst %}{% else %}{% trans "create event"|capfirst %}{% endif %}</h1>
     </div>
 </div>
 
@@ -19,15 +19,214 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
-                    {# Django will render all fields with the widgets and classes we defined! #}
-                    {{ form.as_p }}
+                    {% for field in form %}
+                        {% if field.name != 'categories' and field.name != 'new_categories' %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label|capfirst }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <div class="form-text">{{ field.help_text }}</div>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in field.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Price Options Section -->
+                    <div class="mb-4 price-options-section border border-dark rounded p-3" id="price-options-section">
+                        <h4>{% trans "Price Options"|capfirst %}</h4>
+                        <p class="text-muted">{% trans "Add different price options for your event (e.g., VIP, Standard, etc.)"|capfirst %}</p>
+
+                        {{ price_formset.management_form }}
+
+                        <div id="price-options-container">
+                            {% for form in price_formset %}
+                                <div class="price-option-form mb-3 p-2 border rounded">
+                                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                    <div class="row g-2">
+                                        <div class="col-md-3">
+                                            <label for="{{ form.name.id_for_label }}" class="form-label small">{% trans "Option Name"|capfirst %}</label>
+                                            {{ form.name }}
+                                            {% if form.name.errors %}
+                                                <div class="invalid-feedback d-block">
+                                                    {% for error in form.name.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="{{ form.price.id_for_label }}" class="form-label small">{% trans "Price"|capfirst %} (€)</label>
+                                            {{ form.price }}
+                                            {% if form.price.errors %}
+                                                <div class="invalid-feedback d-block">
+                                                    {% for error in form.price.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="{{ form.max_seats.id_for_label }}" class="form-label small">{% trans "Max Seats"|capfirst %}</label>
+                                            {{ form.max_seats }}
+                                            {% if form.max_seats.errors %}
+                                                <div class="invalid-feedback d-block">
+                                                    {% for error in form.max_seats.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-end">
+                                            {% if form.instance.pk %}
+                                                <button type="button" class="btn btn-sm btn-danger remove-price-option">{% trans "Remove"|capfirst %}</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {{ form.id }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="button" id="add-price-option" class="btn btn-sm btn-outline-primary">
+                            {% trans "Add Price Option"|capfirst %}
+                        </button>
+                    </div>
+
+                    <!-- Categories Section -->
+                    <div class="mb-4 categories-section border border-dark rounded p-3">
+                        <h4>{% trans "Categories"|capfirst %}</h4>
+
+                        <!-- Existing Categories -->
+                        {% for field in form %}
+                            {% if field.name == 'categories' %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label|capfirst }}</label>
+                                    <div class="category-selection d-flex flex-wrap gap-3">
+                                        {% if field.subwidgets %}
+                                            {% for checkbox in field.subwidgets %}
+                                                <div class="form-check me-3">
+                                                    {{ checkbox.tag }}
+                                                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                                        {{ checkbox.data.label }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p class="text-muted">{% trans "no categories available. "|capfirst %}
+                                                <a href="{% url 'category-create' %}">{% trans "create a category"|capfirst %}</a>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                    {% if field.help_text %}
+                                        <div class="form-text">{{ field.help_text }}</div>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in field.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- New Categories -->
+                        {% for field in form %}
+                            {% if field.name == 'new_categories' %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label|capfirst }}</label>
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <div class="form-text">{{ field.help_text }}</div>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in field.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const addButton = document.getElementById('add-price-option');
+                            const container = document.getElementById('price-options-container');
+
+                            // Add new price option form
+                            addButton.addEventListener('click', function() {
+                                const forms = container.getElementsByClassName('price-option-form');
+                                const formCount = forms.length;
+
+                                // Clone the first form
+                                const newForm = forms[0].cloneNode(true);
+
+                                // Update form index
+                                const regex = new RegExp('price_options-0', 'g');
+                                newForm.innerHTML = newForm.innerHTML.replace(regex, `price_options-${formCount}`);
+
+                                // Clear input values
+                                newForm.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+                                    input.value = '';
+                                });
+
+                                // Reset select to default
+                                newForm.querySelectorAll('select').forEach(select => {
+                                    select.selectedIndex = 0;
+                                });
+
+                                // Add remove button
+                                const buttonCol = newForm.querySelector('.col-md-3:last-child');
+                                buttonCol.innerHTML = '<button type="button" class="btn btn-sm btn-danger remove-price-option">{% trans "Remove"|capfirst %}</button>';
+
+                                // Add the new form to the container
+                                container.appendChild(newForm);
+
+                                // Update the management form
+                                const totalForms = document.getElementById('id_price_options-TOTAL_FORMS');
+                                totalForms.value = parseInt(totalForms.value) + 1;
+                            });
+
+                            // Remove price option form
+                            container.addEventListener('click', function(e) {
+                                if (e.target.classList.contains('remove-price-option')) {
+                                    const form = e.target.closest('.price-option-form');
+                                    const deleteCheckbox = form.querySelector('input[type="checkbox"][name$="-DELETE"]');
+
+                                    if (deleteCheckbox) {
+                                        // If this is an existing form, mark it for deletion
+                                        deleteCheckbox.checked = true;
+                                        form.style.display = 'none';
+                                    } else {
+                                        // If this is a new form, remove it from the DOM
+                                        form.remove();
+
+                                        // Update the management form
+                                        const totalForms = document.getElementById('id_price_options-TOTAL_FORMS');
+                                        totalForms.value = parseInt(totalForms.value) - 1;
+                                    }
+                                }
+                            });
+                        });
+                    </script>
 
                     <div class="d-flex gap-2 mt-4">
                         <button type="submit" class="btn btn-primary">
-                            {% if form.instance.pk %}{% trans "Update Event" %}{% else %}{% trans "Create Event" %}{% endif %}
+                            {% if form.instance.pk %}{% trans "update event"|capfirst %}{% else %}{% trans "create event"|capfirst %}{% endif %}
                         </button>
                         <a href="{% if form.instance.pk %}{% url 'event-detail' form.instance.pk %}{% else %}{% url 'event-list' %}{% endif %}"
-                           class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
+                           class="btn btn-outline-secondary">{% trans "cancel"|capfirst %}</a>
                     </div>
                 </form>
             </div>

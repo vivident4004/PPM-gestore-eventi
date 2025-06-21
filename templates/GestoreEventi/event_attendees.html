@@ -36,6 +36,7 @@
                                     <th>{% trans "Name" %}</th>
                                     <th>{% trans "Email" %}</th>
                                     <th>{% trans "Phone" %}</th>
+                                    <th>{% trans "Price Option" %}</th>
                                     <th>{% trans "Registered On" %}</th>
                                 </tr>
                             </thead>
@@ -47,6 +48,7 @@
                                     <td>{{ registration.attendee.get_full_name }}</td>
                                     <td>{{ registration.attendee.email }}</td>
                                     <td>{{ registration.attendee.phone|default:"-" }}</td>
+                                    <td>{% if registration.price_option %}{{ registration.price_option.name }} ({{ registration.price_option.price }} €){% else %}-{% endif %}</td>
                                     <td>{{ registration.formatted_registered_at }}</td>
                                 </tr>
                                 {% endfor %}
