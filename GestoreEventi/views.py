@@ -399,8 +399,51 @@ def unregister_from_event(request, pk):
 
 @login_required
 def my_registrations(request):
-    registrations = Registration.objects.filter(attendee=request.user).order_by('-event__date')
-    return render(request, 'GestoreEventi/my_registrations.html', {'registrations': registrations})
+    from django.utils import timezone
+    now = timezone.now()
+
+    # Get all registrations for the current user
+    all_registrations = Registration.objects.filter(attendee=request.user)
+
+    # Get upcoming events (events that haven't started yet)
+    upcoming_registrations = all_registrations.filter(event__date__gt=now).order_by('event__date')
+
+    # Get the next upcoming event(s) - events with the earliest start date
+    next_events = []
+    if upcoming_registrations.exists():
+        next_event_date = upcoming_registrations.first().event.date
+        next_events = upcoming_registrations.filter(event__date=next_event_date)
+
+    # Get current events (events that have started but not ended yet)
+    current_registrations = all_registrations.filter(
+        event__date__lte=now
+    ).filter(
+        Q(event__end_date__gt=now) | Q(event__end_date__isnull=True)
+    ).order_by('event__date')
+
+    # Get past events (events that have ended)
+    past_registrations = all_registrations.filter(
+        Q(event__end_date__lte=now) | 
+        (Q(event__end_date__isnull=True) & Q(event__date__lt=now))
+    ).order_by('-event__date')
+
+    # Combine current and upcoming events (excluding next events)
+    next_event_ids = [reg.event.id for reg in next_events]
+    current_upcoming_registrations = (current_registrations | 
+                                     upcoming_registrations.exclude(event__id__in=next_event_ids)
+                                    ).order_by('event__date')
+
+    # Check if calendar view is requested
+    view_type = request.GET.get('view', 'list')
+
+    context = {
+        'next_events': next_events,
+        'current_upcoming_registrations': current_upcoming_registrations,
+        'past_registrations': past_registrations,
+        'view_type': view_type
+    }
+
+    return render(request, 'GestoreEventi/my_registrations.html', context)
 
 @login_required
 @permission_required('GestoreEventi.view_registration', raise_exception=True)
