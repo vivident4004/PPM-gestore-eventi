@@ -196,14 +196,14 @@ msgstr "questa opzione di prezzo è già completa."
 #: GestoreEventi/views.py:395
 
 #| msgid "You have successfully registered for"
-msgid "you have successfully registered for"
-msgstr "ti sei registrato con successo per"
+msgid "You have successfully registered for"
+msgstr "Ti sei registrato con successo per l'evento"
 
 #: GestoreEventi/views.py:397
 
 #| msgid "You are already registered for this event."
-msgid "you are already registered for this event."
-msgstr "sei già registrato per questo evento."
+msgid "You are already registered for this event."
+msgstr "Sei già registrato per questo evento."
 
 #: GestoreEventi/views.py:408
 
@@ -671,10 +671,8 @@ msgid "Price Options"
 msgstr "Opzioni di prezzo"
 
 #: templates/GestoreEventi/event_form.html:44
-msgid "Add different price options for your event (e.g., VIP, Standard, etc.)"
-msgstr ""
-"Aggiungi diverse opzioni di prezzo per il tuo evento (es. VIP, Standard, "
-"ecc.)"
+msgid "Add different price options for your event (e.g., full price, student, etc.)"
+msgstr "Aggiungi diverse opzioni di prezzo per il tuo evento (es. intero, per studenti, ecc.)"
 
 #: templates/GestoreEventi/event_form.html:62
 msgid "Option Name"
@@ -881,11 +879,11 @@ msgstr "Non sei ancora registrato a nessun evento."
 
 #| msgid "Browse events"
 msgid "browse events"
-msgstr "sfoglia eventi"
+msgstr "sfoglia gli eventi"
 
 #: templates/GestoreEventi/my_registrations.html:225
 msgid "to find something you're interested in!"
-msgstr "per trovare qualcosa che ti interessa!"
+msgstr "per trovare qualcosa che t'interessa!"
 
 #: templates/base.html:7
 msgid "Floregram 9000 - Advanced event management system"
@@ -939,6 +937,9 @@ msgstr "Esegui l'accesso per vedere questa pagina."
 
 #: templates/registration/login.html:43 templates/registration/register.html:81
 #: users/views.py:12
+
+msgid "register"
+msgstr "registrati"
 
 msgid "Register"
 msgstr "Registrati"
@@ -1098,21 +1099,23 @@ msgstr "Sei stato disconnesso con successo."
 #~ msgid "event management system"
 #~ msgstr "gestione eventi"
 
-#~ msgid "confirm deletion"
-#~ msgstr "conferma eliminazione"
+msgid "Confirm deletion"
+msgstr "Conferma eliminazione"
 
-#~ msgid "are you sure you want to delete the event"
-#~ msgstr "sei sicuro di voler eliminare l'evento"
+msgid "Are you sure you want to delete the event"
+msgstr "Sei sicuro di voler eliminare l'evento"
 
-#~ msgid ""
-#~ "this action cannot be undone. all registrations for this event will also "
-#~ "be deleted."
-#~ msgstr ""
-#~ "questa azione non può essere annullata. anche tutte le registrazioni per "
-#~ "questo evento verranno eliminate."
+msgid "This action cannot be undone. All registrations for this event will also be deleted."
+msgstr "Questa azione non può essere annullata. Anche tutte le registrazioni per questo evento verranno eliminate."
 
-#~ msgid "yes, delete event"
-#~ msgstr "sì, elimina evento"
+msgid "The event will be hidden from users but will remain in the database. An administrator can restore it if needed."
+msgstr "L'evento sarà nascosto agli utenti ma rimarrà nel database. Un amministratore può ripristinarlo se necessario."
+
+msgid "Restore selected events"
+msgstr "Ripristina eventi selezionati"
+
+msgid "Yes, delete event"
+msgstr "Sí, elimina l'evento"
 
 msgid "Don't have an account?"
 msgstr "Non hai ancora un conto?"
@@ -1134,7 +1137,7 @@ msgid "Edit event"
 msgstr "Modifica evento"
 
 msgid "Delete event"
-msgstr "Cancella evento"
+msgstr "Elimina evento"
 
 msgid "View attendees"
 msgstr "Visualizza partecipanti"

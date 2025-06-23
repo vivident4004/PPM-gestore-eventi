@@ -176,7 +176,7 @@
     </div>
 </div>
 
-{% if user.is_authenticated and user == event.organizer %}
+{% if user.is_authenticated %}{% if user == event.organizer or user.is_superuser %}
 <div class="row mb-4">
     <div class="col">
         <div class="card">
@@ -193,7 +193,7 @@
         </div>
     </div>
 </div>
-{% endif %}
+{% endif %}{% endif %}
 
 <div class="row">
     <div class="col">

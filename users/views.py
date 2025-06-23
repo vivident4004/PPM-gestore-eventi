@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
@@ -8,21 +9,21 @@ from .models import CustomUser
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-class UserRegistrationForm(forms.ModelForm):
+class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_('Confirm Password'), widget=forms.PasswordInput)
     is_organizer = forms.BooleanField(label=_('Register as Event Organizer'), required=False)
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'phone', 'bio')
+        fields = UserCreationForm.Meta.fields + ('email', 'first_name', 'last_name', 'phone', 'bio')
 
-    def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(_('Passwords do not match'))
-        return password2
+    # def clean_password2(self):
+    #     password1 = self.cleaned_data.get('password1')
+    #     password2 = self.cleaned_data.get('password2')
+    #     if password1 and password2 and password1 != password2:
+    #         raise forms.ValidationError(_('Passwords do not match'))
+    #     return password2
 
 class RegisterView(CreateView):
     template_name = 'registration/register.html'

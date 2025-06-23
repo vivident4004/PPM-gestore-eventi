@@ -24,6 +24,10 @@ class EventListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        # Exclude logically deleted events
+        queryset = queryset.filter(is_deleted=False)
+
         category_slug = self.kwargs.get('category_slug')
 
         # Filter by category if provided
@@ -150,6 +154,16 @@ class EventDetailView(DetailView):
     model = Event
     template_name = 'GestoreEventi/event_detail.html'
 
+    def get_object(self, queryset=None):
+        # Get the object from the default implementation
+        obj = super().get_object(queryset)
+        # Check if the event is deleted
+        if obj.is_deleted:
+            # If the event is deleted, raise a 404 error
+            from django.http import Http404
+            raise Http404("Event not found")
+        return obj
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
@@ -190,10 +204,11 @@ class EventDashboardView(LoginRequiredMixin, OrganizerRequiredMixin, TemplateVie
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Get all events organized by the current user, or all events if superuser
+        # Exclude logically deleted events
         if self.request.user.is_superuser:
-            context['events'] = Event.objects.all().order_by('-date')
+            context['events'] = Event.objects.filter(is_deleted=False).order_by('-date')
         else:
-            context['events'] = Event.objects.filter(organizer=self.request.user).order_by('-date')
+            context['events'] = Event.objects.filter(organizer=self.request.user, is_deleted=False).order_by('-date')
         return context
 
 class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
@@ -205,55 +220,57 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['price_formset'] = PriceOptionFormSet(self.request.POST, instance=self.object)
+            context['price_formset'] = PriceOptionFormSet(self.request.POST, instance=self.object or None)
         else:
-            context['price_formset'] = PriceOptionFormSet(instance=self.object)
+            context['price_formset'] = PriceOptionFormSet(instance=self.object or None)
         return context
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
-
-        # Create the event instance but don't save it to the database yet
         self.object = form.save(commit=False)
 
-        # Process price formset
         price_formset = PriceOptionFormSet(self.request.POST, instance=self.object)
         if not price_formset.is_valid():
-            # If the formset is not valid, return to the form with errors
             return self.form_invalid(form)
 
-        # Save the event to the database
-        self.object.save()
-        form.save_m2m()  # Save many-to-many relationships
+        try:
+            self.object.save()
+            form.save_m2m()
+            price_formset.save()
 
-        # Save the price formset
-        price_formset.save()
+            new_categories_text = form.cleaned_data.get('new_categories', '')
+            if new_categories_text:
+                category_names = [name.strip() for name in new_categories_text.split(',') if name.strip()]
 
-        # Process new categories
-        new_categories_text = form.cleaned_data.get('new_categories', '')
-        if new_categories_text:
-            # Split by comma and strip whitespace
-            category_names = [name.strip() for name in new_categories_text.split(',') if name.strip()]
+                for name in category_names:
+                    try:
+                        category, created = Category.objects.get_or_create(
+                            name__iexact=name,
+                            defaults={'name': name, 'slug': slugify(name)}
+                        )
+                        self.object.categories.add(category)
+                    except IntegrityError:
+                        messages.warning(self.request, f'Category "{name}" could not be created')
 
-            for name in category_names:
-                # Check if category already exists (case insensitive)
-                if not Category.objects.filter(name__iexact=name).exists():
-                    # Create new category
-                    category = Category(name=name, slug=slugify(name))
-                    category.save()
-                    # Add to event's categories
-                    self.object.categories.add(category)
-                else:
-                    # Get existing category and add to event if not already added
-                    category = Category.objects.get(name__iexact=name)
-                    self.object.categories.add(category)
-
-        return response
+            return HttpResponseRedirect(self.get_success_url())
+        except Exception as e:
+            messages.error(self.request, f'Error saving event: {str(e)}')
+            return self.form_invalid(form)
 
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
     template_name = 'GestoreEventi/event_form.html'
     form_class = EventForm
+
+    def get_object(self, queryset=None):
+        # Get the object from the default implementation
+        obj = super().get_object(queryset)
+        # Check if the event is deleted
+        if obj.is_deleted:
+            # If the event is deleted, raise a 404 error
+            from django.http import Http404
+            raise Http404("Event not found")
+        return obj
 
     def test_func(self):
         event = self.get_object()
@@ -304,7 +321,8 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     category = Category.objects.get(name__iexact=name)
                     self.object.categories.add(category)
 
-        return response
+        # Return a redirect to the success URL
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse_lazy('event-detail', kwargs={'pk': self.object.pk})
@@ -318,6 +336,30 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         event = self.get_object()
         # Check if user is the organizer of the event or is a superuser
         return self.request.user == event.organizer or self.request.user.is_superuser
+
+    def get_object(self, queryset=None):
+        # Get the object from the default implementation
+        obj = super().get_object(queryset)
+        # Check if the event is already deleted
+        if obj.is_deleted:
+            # If the event is already deleted, raise a 404 error
+            from django.http import Http404
+            raise Http404("Event not found")
+        return obj
+
+    def post(self, request, *args, **kwargs):
+        """
+        Override the post method to handle the form submission.
+        Instead of physically deleting the event, set is_deleted=True.
+        """
+        self.object = self.get_object()
+
+        # Logical deletion - set is_deleted flag to True
+        self.object.is_deleted = True
+        self.object.save()
+
+        messages.success(request, _('Event has been successfully deleted.'))
+        return HttpResponseRedirect(self.get_success_url())
 
 # Category Views
 class CategoryListView(LoginRequiredMixin, OrganizerRequiredMixin, ListView):
@@ -363,7 +405,7 @@ class CategoryDeleteView(LoginRequiredMixin, OrganizerRequiredMixin, DeleteView)
 # Registration Views
 @login_required
 def register_for_event(request, pk):
-    event = get_object_or_404(Event, pk=pk)
+    event = get_object_or_404(Event, pk=pk, is_deleted=False)
 
     # Check if event is full
     if event.is_full():
@@ -392,15 +434,15 @@ def register_for_event(request, pk):
 
     try:
         Registration.objects.create(event=event, attendee=request.user, price_option=price_option)
-        messages.success(request, _('you have successfully registered for') + f' {event.title}.')
+        messages.success(request, _('You have successfully registered for') + f' {event.title}.')
     except IntegrityError:
-        messages.warning(request, _('you are already registered for this event.'))
+        messages.warning(request, _('You are already registered for this event.'))
 
     return redirect('event-detail', pk=pk)
 
 @login_required
 def unregister_from_event(request, pk):
-    event = get_object_or_404(Event, pk=pk)
+    event = get_object_or_404(Event, pk=pk, is_deleted=False)
 
     try:
         registration = Registration.objects.get(event=event, attendee=request.user)
@@ -416,8 +458,8 @@ def my_registrations(request):
     from django.utils import timezone
     now = timezone.now()
 
-    # Get all registrations for the current user
-    all_registrations = Registration.objects.filter(attendee=request.user)
+    # Get all registrations for the current user, excluding deleted events
+    all_registrations = Registration.objects.filter(attendee=request.user, event__is_deleted=False)
 
     # Get upcoming events (events that haven't started yet)
     upcoming_registrations = all_registrations.filter(event__date__gt=now).order_by('event__date')
@@ -462,7 +504,7 @@ def my_registrations(request):
 @login_required
 @permission_required('GestoreEventi.view_registration', raise_exception=True)
 def event_attendees(request, pk):
-    event = get_object_or_404(Event, pk=pk)
+    event = get_object_or_404(Event, pk=pk, is_deleted=False)
 
     # Check if user is the organizer of the event
     if request.user != event.organizer and not request.user.is_superuser:

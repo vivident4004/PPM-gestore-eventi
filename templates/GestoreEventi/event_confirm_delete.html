@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block title %}Delete Event{% endblock %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col">
-        <h1>Delete Event</h1>
+        <h1>{% trans "Delete event" %}</h1>
     </div>
 </div>
 
@@ -13,21 +13,21 @@
     <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header bg-danger text-white">
-                <h5 class="mb-0">Confirm Deletion</h5>
+                <h5 class="mb-0">{% translate "Confirm deletion" %}</h5>
             </div>
             <div class="card-body">
                 <p class="card-text">
-                    Are you sure you want to delete the event "<strong>{{ object.title }}</strong>"?
+                    {% trans "Are you sure you want to delete the event" %} "<strong>{{ object.title }}</strong>"?
                 </p>
                 <p class="card-text">
-                    This action cannot be undone. All registrations for this event will also be deleted.
+                    {% trans "The event will be hidden from users but will remain in the database. An administrator can restore it if needed." %}
                 </p>
-                
+
                 <form method="post">
                     {% csrf_token %}
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-danger">Yes, Delete Event</button>
-                        <a href="{% url 'event-detail' object.pk %}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-danger">{% translate 'Yes, delete event' %}</button>
+                        <a href="{% url 'event-detail' object.pk %}" class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
                     </div>
                 </form>
             </div>
