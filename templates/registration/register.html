@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}Register{% endblock %}
+{% block title %}{% trans "Register" %}{% endblock %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col">
-        <h1>Register</h1>
+        <h1>{% trans "Register" %}</h1>
     </div>
 </div>
 
@@ -18,7 +18,7 @@
 
                     {% if form.errors %}
                         <div class="alert alert-danger">
-                            Please correct the errors below.
+                            {% trans "Please correct the errors below." %}
                         </div>
                     {% endif %}
 
@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="submit" class="btn btn-primary">{% trans "Register" %}</button>
                     </div>
                 </form>
 

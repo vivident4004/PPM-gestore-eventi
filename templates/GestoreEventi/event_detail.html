@@ -54,9 +54,9 @@
                         <strong>{% trans "max attendees"|capfirst %}:</strong> {{ event.max_attendees }}
                     </li>
                     <li class="list-group-item">
-                        <strong>{% trans "available spots"|capfirst %}:</strong>
+                        <strong>{% trans "Available spots"|capfirst %}:</strong>
                         {% if event.is_full %}
-                            <span class="badge bg-danger">{% trans "full"|capfirst %}</span>
+                            <span class="badge bg-danger">{% trans "none left"|capfirst %}</span>
                         {% else %}
                             <span class="badge bg-success">{{ event.available_spots }} {% trans "spots left" %}</span>
                         {% endif %}

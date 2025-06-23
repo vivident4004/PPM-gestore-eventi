@@ -18,5 +18,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . /app/
 
+# compila le traduzioni
+# RUN python manage.py compilemessages -l it
+COPY traduzioni.sh /traduzioni.sh
+RUN chmod +x /traduzioni.sh
+
+ENTRYPOINT ["/traduzioni.sh"]
+
 # Run gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "ProgettoEventi.wsgi:application"]

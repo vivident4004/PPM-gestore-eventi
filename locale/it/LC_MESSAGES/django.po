@@ -43,7 +43,7 @@ msgstr "Descrizione"
 
 #| msgid "Start date"
 msgid "start date"
-msgstr "Data di inizio"
+msgstr "Data d'inizio"
 
 #: GestoreEventi/forms.py:32 templates/GestoreEventi/event_detail.html:47
 
@@ -143,14 +143,10 @@ msgstr ""
 msgid "price option"
 msgstr "opzione di prezzo"
 
-#: GestoreEventi/forms.py:255
-msgid "user"
-msgstr ""
-
 #: GestoreEventi/models.py:133 GestoreEventi/models.py:143
 #: GestoreEventi/models.py:152 GestoreEventi/models.py:159
 msgid "Free"
-msgstr "Gratis"
+msgstr "gratis"
 
 #: GestoreEventi/models.py:168
 
@@ -173,8 +169,7 @@ msgstr "categoria aggiornata con successo."
 
 #| msgid "Cannot delete category because it is used by one or more events."
 msgid "cannot delete category because it is used by one or more events."
-msgstr ""
-"impossibile eliminare la categoria perché è utilizzata da uno o più eventi."
+msgstr "impossibile eliminare la categoria perché è utilizzata da uno o più eventi."
 
 #: GestoreEventi/views.py:360
 
@@ -251,7 +246,7 @@ msgstr ""
 
 #| msgid "delete category"
 msgid "Delete Category"
-msgstr "elimina categoria"
+msgstr "Elimina categoria"
 
 #: templates/GestoreEventi/category_confirm_delete.html:17
 
@@ -263,13 +258,13 @@ msgstr "sei sicuro di voler eliminare questa categoria?"
 
 #| msgid "category"
 msgid "Category"
-msgstr "categoria"
+msgstr "Categoria"
 
 #: templates/GestoreEventi/category_confirm_delete.html:26
 
 #| msgid "this category is used by"
 msgid "This category is used by"
-msgstr "questa categoria è utilizzata da"
+msgstr "Questa categoria è utilizzata da"
 
 #: templates/GestoreEventi/category_confirm_delete.html:26
 #: templates/GestoreEventi/category_list.html:44
@@ -280,27 +275,27 @@ msgstr "eventi"
 
 #| msgid "deleting it will remove it from all these events."
 msgid "Deleting it will remove it from all these events."
-msgstr "eliminarla la rimuoverà da tutti questi eventi."
+msgstr "Eliminarla la rimuoverà da tutti questi eventi."
 
 #: templates/GestoreEventi/category_confirm_delete.html:35
 
 #| msgid "delete"
 msgid "Delete"
-msgstr "elimina"
+msgstr "Elimina"
 
 #: templates/GestoreEventi/category_confirm_delete.html:36
 #: templates/GestoreEventi/category_form.html:41
 
 #| msgid "cancel"
 msgid "Cancel"
-msgstr "annulla"
+msgstr "Annulla"
 
 #: templates/GestoreEventi/category_form.html:5
 #: templates/GestoreEventi/category_form.html:11
 
 #| msgid "edit category"
 msgid "Edit Category"
-msgstr "modifica categoria"
+msgstr "Modifica categoria"
 
 #: templates/GestoreEventi/category_form.html:5
 #: templates/GestoreEventi/category_form.html:11
@@ -308,13 +303,13 @@ msgstr "modifica categoria"
 
 #| msgid "create category"
 msgid "Create Category"
-msgstr "crea categoria"
+msgstr "Crea categoria"
 
 #: templates/GestoreEventi/category_form.html:39
 
 #| msgid "update category"
 msgid "Update Category"
-msgstr "aggiorna categoria"
+msgstr "Aggiorna categoria"
 
 #: templates/GestoreEventi/category_list.html:4
 #: templates/GestoreEventi/category_list.html:9
@@ -327,13 +322,13 @@ msgstr "Categorie"
 
 #| msgid "manage event categories"
 msgid "Manage event categories"
-msgstr "gestisci categorie di eventi"
+msgstr "Gestisci categorie di eventi"
 
 #: templates/GestoreEventi/category_list.html:14
 
 #| msgid "create new category"
 msgid "Create New Category"
-msgstr "crea nuova categoria"
+msgstr "Crea nuova categoria"
 
 #: templates/GestoreEventi/category_list.html:31
 #: templates/GestoreEventi/event_attendees.html:36
@@ -342,7 +337,7 @@ msgstr "Nome"
 
 #: templates/GestoreEventi/category_list.html:32
 msgid "Slug"
-msgstr ""
+msgstr "Intestazione"
 
 #: templates/GestoreEventi/category_list.html:33
 #: templates/GestoreEventi/event_list.html:4
@@ -355,37 +350,37 @@ msgstr "Eventi"
 
 #| msgid "actions"
 msgid "Actions"
-msgstr "azioni"
+msgstr "Azioni"
 
 #: templates/GestoreEventi/category_list.html:49
 
 #| msgid "edit category"
 msgid "Edit category"
-msgstr "modifica categoria"
+msgstr "Modifica categoria"
 
 #: templates/GestoreEventi/category_list.html:52
 
 #| msgid "delete category"
 msgid "Delete category"
-msgstr "elimina categoria"
+msgstr "Elimina categoria"
 
 #: templates/GestoreEventi/category_list.html:64
 
 #| msgid "no categories available yet."
 msgid "No categories available yet."
-msgstr "nessuna categoria disponibile ancora."
+msgstr "Nessuna categoria disponibile ancora."
 
 #: templates/GestoreEventi/category_list.html:67
 
 #| msgid "create your first category"
 msgid "Create Your First Category"
-msgstr "crea la tua prima categoria"
+msgstr "Crea la tua prima categoria"
 
 #: templates/GestoreEventi/category_list.html:80
 
 #| msgid "back to dashboard"
 msgid "Back to Dashboard"
-msgstr "torna al cruscotto"
+msgstr "Torna al cruscotto"
 
 #: templates/GestoreEventi/event_attendees.html:4
 #: templates/GestoreEventi/event_dashboard.html:39
@@ -409,7 +404,7 @@ msgstr "Data"
 
 #| msgid "location"
 msgid "Location"
-msgstr "luogo"
+msgstr "Luogo"
 
 #: templates/GestoreEventi/event_attendees.html:22
 
@@ -426,19 +421,19 @@ msgstr "posti rimasti su"
 
 #| msgid "username"
 msgid "Username"
-msgstr "nome utente"
+msgstr "Nome utente"
 
 #: templates/GestoreEventi/event_attendees.html:37
 
 #| msgid "Email"
 msgid "Email"
-msgstr "indirizzo di posta elettronica"
+msgstr "Indirizzo di posta elettronica"
 
 #: templates/GestoreEventi/event_attendees.html:38
 
 #| msgid "phone"
 msgid "Phone"
-msgstr "telefono"
+msgstr "Telefono"
 
 #: templates/GestoreEventi/event_attendees.html:39
 msgid "Price Option"
@@ -448,7 +443,7 @@ msgstr "Opzione di Prezzo"
 
 #| msgid "registered on"
 msgid "Registered On"
-msgstr "registrato il"
+msgstr "Registrato il"
 
 #: templates/GestoreEventi/event_attendees.html:61
 
@@ -460,29 +455,29 @@ msgstr "nessun partecipante si è ancora registrato per questo evento."
 
 #| msgid "add attendee"
 msgid "Add Attendee"
-msgstr "aggiungi partecipante"
+msgstr "Aggiungi partecipante"
 
 #: templates/GestoreEventi/event_attendees.html:77
 msgid "Add User"
-msgstr ""
+msgstr "Aggiungi utente"
 
 #: templates/GestoreEventi/event_attendees.html:81
 
 #| msgid "this event is full. you cannot add more attendees."
 msgid "This event is full. You cannot add more attendees."
-msgstr "questo evento è completo. non puoi aggiungere altri partecipanti."
+msgstr "Questo evento è al completo. Non puoi aggiungere altri partecipanti."
 
 #: templates/GestoreEventi/event_attendees.html:92
 
 #| msgid "Back to events"
 msgid "Back to Event"
-msgstr "torna agli eventi"
+msgstr "Torna agli eventi"
 
 #: templates/GestoreEventi/event_attendees.html:93
 
 #| msgid "print attendee list"
 msgid "Print Attendee List"
-msgstr "stampa elenco partecipanti"
+msgstr "Stampa elenco partecipanti"
 
 #: templates/GestoreEventi/event_dashboard.html:4
 #: templates/GestoreEventi/event_dashboard.html:9 templates/base.html:111
@@ -569,7 +564,10 @@ msgstr "Posti disponibili"
 #: templates/GestoreEventi/event_detail.html:59
 #: templates/GestoreEventi/event_detail.html:105
 msgid "full"
-msgstr ""
+msgstr "pieno"
+
+msgid "none left"
+msgstr "nessuno"
 
 #: templates/GestoreEventi/event_detail.html:61
 #: templates/GestoreEventi/event_list.html:147
@@ -590,7 +588,10 @@ msgstr "opzione"
 
 #| msgid "max seats"
 msgid "seats"
-msgstr "posti massimi"
+msgstr "posti totali"
+
+msgid "available"
+msgstr "disponibili"
 
 #: templates/GestoreEventi/event_detail.html:119
 msgid "no price information"
@@ -609,10 +610,6 @@ msgstr "l'evento è completo"
 #: templates/GestoreEventi/event_detail.html:135
 #: templates/GestoreEventi/event_detail.html:160
 #: templates/GestoreEventi/event_detail.html:167
-
-#| msgid "unregister"
-msgid "register"
-msgstr "annulla registrazione"
 
 #: templates/GestoreEventi/event_detail.html:143
 msgid "select price option"
@@ -730,7 +727,7 @@ msgstr "Cancella"
 
 #| msgid "all categories"
 msgid "All Categories"
-msgstr "tutte le categorie"
+msgstr "Tutte le categorie"
 
 #: templates/GestoreEventi/event_list.html:71
 msgid "Filter by Price"
@@ -760,7 +757,7 @@ msgstr "Filtra"
 
 #| msgid "showing events in category"
 msgid "Showing events in category"
-msgstr "mostra eventi nella categoria"
+msgstr "Mostra eventi nella categoria"
 
 #: templates/GestoreEventi/event_list.html:118
 msgid "Search results for"
@@ -779,21 +776,21 @@ msgstr "Pieno"
 
 #| msgid "view details"
 msgid "View details"
-msgstr "visualizza dettagli"
+msgstr "Visualizza dettagli"
 
 #: templates/GestoreEventi/event_list.html:173
 #: templates/GestoreEventi/event_list.html:180
 
 #| msgid "first"
 msgid "First"
-msgstr "primo"
+msgstr "Primo"
 
 #: templates/GestoreEventi/event_list.html:176
 #: templates/GestoreEventi/event_list.html:183
 
 #| msgid "previous"
 msgid "Previous"
-msgstr "precedente"
+msgstr "Precedente"
 
 #: templates/GestoreEventi/event_list.html:189
 msgid "Page"
@@ -817,7 +814,7 @@ msgstr "Ultimo"
 
 #| msgid "no events available at the moment."
 msgid "No events available at the moment."
-msgstr "nessun evento disponibile al momento."
+msgstr "Nessun evento disponibile al momento."
 
 #: templates/GestoreEventi/my_registrations.html:3
 #: templates/GestoreEventi/my_registrations.html:8 templates/base.html:107
@@ -867,8 +864,7 @@ msgstr "eventi"
 
 #: templates/GestoreEventi/my_registrations.html:107
 #: templates/GestoreEventi/my_registrations.html:167
-msgid "actions"
-msgstr "azioni"
+
 
 #: templates/GestoreEventi/my_registrations.html:155
 msgid "Past events"
@@ -892,7 +888,7 @@ msgid "to find something you're interested in!"
 msgstr "per trovare qualcosa che ti interessa!"
 
 #: templates/base.html:7
-msgid "Floregram 9000 - Advanced event managment system"
+msgid "Floregram 9000 - Advanced event management system"
 msgstr "Floregram 9000 - Sistema avanzato di gestione degli eventi"
 
 #: templates/base.html:96
@@ -916,10 +912,6 @@ msgid "Login"
 msgstr "Accedi"
 
 #: templates/base.html:169
-msgid "Floregram 9000 - Advanced event management system"
-msgstr "Floregram 9000 - sistema avanzato di gestione degli eventi"
-
-#: templates/base.html:169
 msgid "No rights reserved"
 msgstr "Nessun diritto riservato"
 
@@ -927,93 +919,93 @@ msgstr "Nessun diritto riservato"
 
 #| msgid "your username and password didn't match. please try again."
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
-"il tuo nome utente e la tua password non corrispondono. per favore riprova."
+msgstr "Il tuo nome utente e la tua parola d'accesso non corrispondono. Per favore riprova."
 
 #: templates/registration/login.html:25
 
 #| msgid ""
 #| "your account doesn't have authorization access to this page. to proceed, "
 #| "please login with an account that has the correct permissions."
-msgid ""
-"Your account doesn't have authorization access to this page. To proceed, "
+msgid "Your account doesn't have authorization access to this page. To proceed, "
 "please login with an account that has the correct permissions."
-msgstr ""
-"il tuo conto non ha l'autorizzazione per accedere a questa pagina. per "
+msgstr "Il tuo conto non ha l'autorizzazione per accedere a questa pagina. Per "
 "procedere, accedi con un conto che abbia i permessi giusti."
 
 #: templates/registration/login.html:29
 
 #| msgid "please login to see this page."
 msgid "Please login to see this page."
-msgstr "esegui l'accesso per vedere questa pagina."
+msgstr "Esegui l'accesso per vedere questa pagina."
 
 #: templates/registration/login.html:43 templates/registration/register.html:81
 #: users/views.py:12
 
+msgid "Register"
+msgstr "Registrati"
+
 #| msgid "password"
 msgid "Password"
-msgstr "parola d'accesso"
+msgstr "Parola d'accesso"
 
 #: templates/registration/login.html:55
 
 #| msgid "register here"
 msgid "Register here"
-msgstr "registrati qui"
+msgstr "Registrati qui"
 
 #: templates/registration/login.html:56
 
 #| msgid "forgot your password?"
 msgid "Forgot your password?"
-msgstr "hai dimenticato la tua parola d'accesso?"
+msgstr "Hai dimenticato la tua parola d'accesso?"
 
 #: templates/registration/register.html:34
 
 #| msgid "Email"
 msgid "E-mail"
-msgstr "indirizzo di posta elettronica"
+msgstr "Indirizzo di posta elettronica"
 
 #: templates/registration/register.html:44
 
 #| msgid "first name"
 msgid "First name"
-msgstr "nome"
+msgstr "Nome"
 
 #: templates/registration/register.html:53
 
 #| msgid "last name"
 msgid "Last name"
-msgstr "cognome"
+msgstr "Cognome"
 
 #: templates/registration/register.html:63
 
 #| msgid "Phone Number"
 msgid "Phone number"
-msgstr "numero di telefono"
+msgstr "Numero di telefono"
 
 #: templates/registration/register.html:71
 
 #| msgid "some words about you"
 msgid "Some words about you"
-msgstr "alcune informazioni su di te"
+msgstr "Alcune informazioni su di te"
 
 #: templates/registration/register.html:89
 
 #| msgid "confirm password"
 msgid "Confirm password"
-msgstr "conferma parola d'accesso"
+msgstr "Conferma parola d'accesso"
 
 #: templates/registration/register.html:101
 
 #| msgid "Register as Event Organizer"
 msgid "Register as event organizer"
-msgstr "registrati come organizzatore di eventi"
+msgstr "Registrati come organizzatore di eventi"
 
 #: templates/registration/register.html:106
 
 #| msgid "fields marked with"
 msgid "Fields marked with"
-msgstr "i campi contrassegnati con"
+msgstr "I campi contrassegnati con"
 
 #: templates/registration/register.html:106
 msgid "are required"
@@ -1023,31 +1015,29 @@ msgstr "sono obbligatori"
 
 #| msgid "already have an account?"
 msgid "Already have an account?"
-msgstr "hai già un conto?"
+msgstr "Hai già un conto?"
 
 #: templates/registration/register.html:115
 
 #| msgid "login here"
 msgid "Login here"
-msgstr "accedi qui"
+msgstr "Accedi qui"
 
 #: users/views.py:13
 
 #| msgid "confirm password"
 msgid "Confirm Password"
-msgstr "conferma parola d'accesso"
+msgstr "Conferma parola d'accesso"
 
 #: users/views.py:14
 
 #| msgid "Register as Event Organizer"
 msgid "Register as Event Organizer"
-msgstr "registrati come organizzatore di eventi"
-
-#: users/views.py:24
+msgstr "Registrati come organizzatore di eventi"
 
 #| msgid "passwords do not match"
 msgid "Passwords do not match"
-msgstr "le parole d'accesso non corrispondono"
+msgstr "Le parole d'accesso non corrispondono"
 
 #: users/views.py:47
 msgid "Account created successfully! You are now logged in as"
@@ -1057,7 +1047,7 @@ msgstr "Conto creato con successo! Ora sei connesso come"
 
 #| msgid "you have been successfully logged out."
 msgid "You have been successfully logged out."
-msgstr "sei stato disconnesso con successo."
+msgstr "Sei stato disconnesso con successo."
 
 #~ msgid "Event"
 #~ msgstr "Evento"
@@ -1124,11 +1114,11 @@ msgstr "sei stato disconnesso con successo."
 #~ msgid "yes, delete event"
 #~ msgstr "sì, elimina evento"
 
-#~ msgid "don't have an account?"
-#~ msgstr "non hai un conto?"
+msgid "Don't have an account?"
+msgstr "Non hai ancora un conto?"
 
-#~ msgid "please correct the errors below."
-#~ msgstr "correggi gli errori qui sotto."
+msgid "Please correct the errors below."
+msgstr "Per favore, correggi gli errori qui sotto."
 
 #~ msgid "bio"
 #~ msgstr "biografia"

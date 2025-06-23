@@ -62,6 +62,7 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
     categories = models.ManyToManyField(Category, related_name='events', blank=True)
+    is_deleted = models.BooleanField(default=False) # per la cancellazione logica
 
     def __str__(self):
         return self.title
