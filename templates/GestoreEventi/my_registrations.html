@@ -239,6 +239,10 @@
 {% if view_type == 'calendar' %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+{% get_current_language as CURRENT_LANGUAGE %}
+{% if CURRENT_LANGUAGE == 'it' %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/it.min.js"></script>
+{% endif %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -249,6 +253,9 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,listMonth'
             },
+            {% if CURRENT_LANGUAGE == 'it' %}
+            locale: 'it',
+            {% endif %}
             events: [
                 {% for registration in next_events %}
                 {

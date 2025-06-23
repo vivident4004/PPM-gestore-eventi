@@ -63,6 +63,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
     categories = models.ManyToManyField(Category, related_name='events', blank=True)
     is_deleted = models.BooleanField(default=False) # per la cancellazione logica
+    is_adult_only = models.BooleanField(default=False, verbose_name=_('Adults Only'), help_text=_('Check this if the event is for adults (18+) only'))
 
     def __str__(self):
         return self.title

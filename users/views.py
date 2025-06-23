@@ -3,20 +3,33 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.models import Group
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import CustomUser
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_('Confirm Password'), widget=forms.PasswordInput)
     is_organizer = forms.BooleanField(label=_('Register as Event Organizer'), required=False)
+    date_of_birth = forms.DateField(
+        label=_('Date of Birth'), 
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        help_text=_('Required to access adult-only events')
+    )
+    address = forms.CharField(
+        label=_('Address'),
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 3}),
+        help_text=_('Used for billing purposes only')
+    )
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ('email', 'first_name', 'last_name', 'phone', 'bio')
+        fields = UserCreationForm.Meta.fields + ('email', 'first_name', 'last_name', 'phone', 'bio', 'date_of_birth', 'address')
 
     # def clean_password2(self):
     #     password1 = self.cleaned_data.get('password1')
@@ -57,3 +70,43 @@ def custom_logout(request):
     logout(request)
     messages.success(request, _('You have been successfully logged out.'))
     return redirect('event-list')
+
+
+class UserProfileForm(forms.ModelForm):
+    """Form for updating user profile information."""
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'date_of_birth', 'address', 'phone', 'bio']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+        help_texts = {
+            'date_of_birth': _('Required to access adult-only events'),
+            'address': _('Used for billing purposes only'),
+        }
+
+
+class UserProfileView(LoginRequiredMixin, UpdateView):
+    """View for updating user profile information."""
+
+    model = CustomUser
+    form_class = UserProfileForm
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('user-profile')
+
+    def get_object(self, queryset=None):
+        """Return the current user's profile."""
+        return self.request.user
+
+    def form_valid(self, form):
+        """Handle valid form submission."""
+        messages.success(self.request, _('Your profile has been updated successfully.'))
+        return super().form_valid(form)

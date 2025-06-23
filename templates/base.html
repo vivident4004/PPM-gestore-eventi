@@ -136,7 +136,7 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <span class="nav-link">{% trans "Welcome" %}, {{ user.username }}</span>
+                            <a class="nav-link" href="{% url 'user-profile' %}">{% trans "Welcome" %}, {{ user.username }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">{% trans "Logout" %}</a>

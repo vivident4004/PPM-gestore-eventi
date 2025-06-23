@@ -35,10 +35,11 @@ class EventForm(forms.ModelForm):
         self.fields['image'].label = _('image')
         self.fields['categories'].label = _('categories')
         self.fields['new_categories'].label = _('new categories')
+        self.fields['is_adult_only'].label = _('adults only')
 
     class Meta:
         model = Event
-        fields = ['title', 'description', 'date', 'end_date', 'location', 'max_attendees', 'image', 'categories']
+        fields = ['title', 'description', 'date', 'end_date', 'location', 'max_attendees', 'image', 'categories', 'is_adult_only']
 
         widgets = {
             'title': forms.TextInput(
@@ -71,6 +72,9 @@ class EventForm(forms.ModelForm):
                 attrs={'class': 'form-control'}
             ),
             'categories': forms.CheckboxSelectMultiple(
+                attrs={'class': 'form-check-input'}
+            ),
+            'is_adult_only': forms.CheckboxInput(
                 attrs={'class': 'form-check-input'}
             ),
         }
@@ -145,14 +149,11 @@ class BasePriceOptionFormSet(forms.BaseInlineFormSet):
                 if form.cleaned_data.get('price') is not None:
                     has_price_value = True
 
-        # Ensure at least one valid price option
-        if valid_forms == 0:
-            raise forms.ValidationError(
-                _("At least one price option is required. Please add a price option."),
-            )
+        # If there are no valid forms, the event will be marked as free
+        # No need to raise an error in this case
 
-        # Ensure at least one price option has a price value
-        if not has_price_value:
+        # If there are some forms but none have a price value, that's still an error
+        if valid_forms > 0 and not has_price_value:
             raise forms.ValidationError(
                 _("At least one price option must have a price value (can be 0 for free events)."),
             )

@@ -28,6 +28,10 @@ class EventListView(ListView):
         # Exclude logically deleted events
         queryset = queryset.filter(is_deleted=False)
 
+        # Exclude adult-only events for non-adult users
+        if not self.request.user.is_authenticated or not self.request.user.is_adult():
+            queryset = queryset.filter(is_adult_only=False)
+
         category_slug = self.kwargs.get('category_slug')
 
         # Filter by category if provided
@@ -153,6 +157,24 @@ class EventListView(ListView):
 class EventDetailView(DetailView):
     model = Event
     template_name = 'GestoreEventi/event_detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the event object
+        event = self.get_object()
+
+        # Check if the event is for adults only
+        if event.is_adult_only:
+            # Check if the user is authenticated
+            if not request.user.is_authenticated:
+                messages.warning(request, _('This event is for adults only. Please log in to continue.'))
+                return redirect('login')
+
+            # Check if the user is an adult
+            if not request.user.is_adult():
+                messages.warning(request, _('This event is for adults only. You must be 18 or older to view it.'))
+                return redirect('event-list')
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         # Get the object from the default implementation

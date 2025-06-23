@@ -1147,3 +1147,45 @@ msgstr "Il tuo prossimo evento"
 
 msgid "Your next events"
 msgstr "I tuoi prossimi eventi"
+
+msgid "Adults only"
+msgstr "Solo per adulti"
+
+msgid "Check this if the event is for adults (18+) only"
+msgstr "Spunta se questo evento è solo per adulti (età 18+)"
+
+msgid "This event is for adults only. You must be 18 or older to view it."
+msgstr "Questo è un evento per soli adulti. Devi avere almeno 18 anni per visualizzarlo."
+
+msgid "This event is for adults only. Please log in to continue."
+msgstr "Questo è un evento per soli adulti. Devi accedere per visualizzarlo."
+
+msgid "User Profile"
+msgstr "Profilo Utente"
+
+msgid "User control panel"
+msgstr "Pannello di controllo utente"
+
+msgid "Update your account information below. Your date of birth is required to access adult-only events."
+msgstr "Aggiorna le tue informazioni di account qui sotto. La tua data di nascita è necessaria per accedere agli eventi per soli adulti."
+
+msgid "Date of birth"
+msgstr "Data di nascita"
+
+msgid "Required to access adult-only events"
+msgstr "Necessaria per accedere agli eventi per soli adulti"
+
+msgid "Address"
+msgstr "Indirizzo"
+
+msgid "Used for billing purposes only"
+msgstr "Utilizzato solo per scopi di fatturazione"
+
+msgid "Update profile"
+msgstr "Aggiorna profilo"
+
+msgid "Your profile has been updated successfully."
+msgstr "Il tuo profilo è stato aggiornato con successo."
+
+msgid "The following fields are optional. You can update them later in your user control panel."
+msgstr "I seguenti campi sono opzionali. Puoi aggiornarli successivamente nel tuo pannello di controllo utente."
