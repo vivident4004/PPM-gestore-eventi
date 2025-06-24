@@ -5,3 +5,4 @@ Pillow
 whitenoise
 psycopg[binary,pool]
 dj_database_url
+requests

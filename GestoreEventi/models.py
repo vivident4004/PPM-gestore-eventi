@@ -4,6 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.formats import number_format
+from .vercel_blob import VercelBlobStorage
 
 # Create your models here.
 def format_price(price):
@@ -60,10 +61,10 @@ class Event(models.Model):
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='organized_events')
     max_attendees = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='event_images/', null=True, blank=True)
+    image = models.URLField(max_length=500, null=True, blank=True, verbose_name=_('Event image'))
     categories = models.ManyToManyField(Category, related_name='events', blank=True)
     is_deleted = models.BooleanField(default=False) # per la cancellazione logica
-    is_adult_only = models.BooleanField(default=False, verbose_name=_('Adults Only'), help_text=_('Check this if the event is for adults (18+) only'))
+    is_adult_only = models.BooleanField(default=False, verbose_name=_('Adults only'), help_text=_('Check this if the event is for adults (18+) only'))
 
     def __str__(self):
         return self.title

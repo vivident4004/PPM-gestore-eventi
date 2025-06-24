@@ -49,12 +49,17 @@ class RegisterView(CreateView):
         user.save()
 
         # Add user to appropriate group
-        if form.cleaned_data['is_organizer']:
-            group = Group.objects.get(name='Organizers')
-        else:
-            group = Group.objects.get(name='Attendees')
+        try:
+            if form.cleaned_data['is_organizer']:
+                group, created = Group.objects.get_or_create(name='Organizers')
+            else:
+                group, created = Group.objects.get_or_create(name='Attendees')
 
-        user.groups.add(group)
+            user.groups.add(group)
+        except Exception as e:
+            # Log the error but continue with registration
+            print(f"Error assigning group: {e}")
+            messages.warning(self.request, _('Your account was created, but group assignment failed. Please contact an administrator.'))
 
         # Log the user in
         login(self.request, user)

@@ -1,0 +1,10 @@
+{% load i18n %}
+
+{% if event.image %}
+<div class="mb-3">
+    <label class="form-label">{% trans "Current Image" %}</label>
+    <div>
+        <img src="{{ event.image }}" alt="{{ event.title }}" class="img-thumbnail" style="max-height: 200px;">
+    </div>
+</div>
+{% endif %}

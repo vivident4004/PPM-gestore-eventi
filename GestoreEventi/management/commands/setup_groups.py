@@ -25,23 +25,33 @@ class Command(BaseCommand):
         registration_content_type = ContentType.objects.get_for_model(Registration)
 
         # Define permissions for Attendees
-        attendee_permissions = [
-            # View events
-            Permission.objects.get(content_type=event_content_type, codename='view_event'),
-            # View own registrations
-            Permission.objects.get(content_type=registration_content_type, codename='view_registration'),
-            # Register/unregister for events
-            Permission.objects.get(content_type=registration_content_type, codename='add_registration'),
-            Permission.objects.get(content_type=registration_content_type, codename='delete_registration'),
-        ]
+        attendee_permissions = []
+        try:
+            attendee_permissions = [
+                # View events
+                Permission.objects.get(content_type=event_content_type, codename='view_event'),
+                # View own registrations
+                Permission.objects.get(content_type=registration_content_type, codename='view_registration'),
+                # Register/unregister for events
+                Permission.objects.get(content_type=registration_content_type, codename='add_registration'),
+                Permission.objects.get(content_type=registration_content_type, codename='delete_registration'),
+            ]
+        except Permission.DoesNotExist as e:
+            self.stdout.write(self.style.WARNING(f'Some attendee permissions do not exist: {e}'))
+            self.stdout.write(self.style.WARNING('This may happen if migrations have not been applied yet.'))
 
         # Define permissions for Organizers (includes all Attendee permissions)
-        organizer_permissions = attendee_permissions + [
-            # Create, update, delete own events
-            Permission.objects.get(content_type=event_content_type, codename='add_event'),
-            Permission.objects.get(content_type=event_content_type, codename='change_event'),
-            Permission.objects.get(content_type=event_content_type, codename='delete_event'),
-        ]
+        organizer_permissions = attendee_permissions.copy()
+        try:
+            organizer_permissions.extend([
+                # Create, update, delete own events
+                Permission.objects.get(content_type=event_content_type, codename='add_event'),
+                Permission.objects.get(content_type=event_content_type, codename='change_event'),
+                Permission.objects.get(content_type=event_content_type, codename='delete_event'),
+            ])
+        except Permission.DoesNotExist as e:
+            self.stdout.write(self.style.WARNING(f'Some organizer permissions do not exist: {e}'))
+            self.stdout.write(self.style.WARNING('This may happen if migrations have not been applied yet.'))
 
         # Assign permissions to groups
         attendee_group.permissions.set(attendee_permissions)

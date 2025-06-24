@@ -3,25 +3,23 @@
   "builds": [
     {
       "src": "ProgettoEventi/wsgi.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
+      "use": "@vercel/python",
       "config": {
-        "distDir": "staticfiles"
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "dest": "/staticfiles/$1"
     },
     {
       "src": "/(.*)",
       "dest": "ProgettoEventi/wsgi.py"
     }
   ],
-  "regions": ["fra1"]
+  "regions": ["fra1"],
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
 }

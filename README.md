@@ -171,6 +171,86 @@ docker-compose down
   - **Dockerfile**: Definisce l'immagine Docker per il progetto
   - **docker-compose.yml**: Configura i servizi Docker
 
+## Deployment su Vercel
+
+Questo progetto è configurato per essere facilmente deployato su Vercel. Segui questi passaggi per deployare l'applicazione:
+
+### Prerequisiti
+
+- Un account Vercel
+- [Vercel CLI](https://vercel.com/download) installato
+- Accesso a un database PostgreSQL (puoi usare servizi come Railway, Supabase, o Neon)
+
+### Configurazione del database
+
+1. Crea un database PostgreSQL su un servizio cloud (Railway, Supabase, Neon, ecc.)
+2. Ottieni l'URL di connessione al database
+
+### Deployment
+
+1. Accedi a Vercel CLI:
+   ```
+   vercel login
+   ```
+
+2. Configura le variabili d'ambiente su Vercel utilizzando lo script fornito:
+   ```
+   sh setup_vercel_env.sh
+   ```
+   Questo script imposterà automaticamente le seguenti variabili d'ambiente su Vercel:
+   - `SECRET_KEY`: La chiave segreta per Django
+   - `DEBUG`: Impostato su "False" per l'ambiente di produzione
+   - `DATABASE_URL`: L'URL di connessione al database PostgreSQL
+
+3. Esegui il deployment:
+   ```
+   vercel --prod
+   ```
+
+4. Segui le istruzioni a schermo. Quando richiesto:
+   - Conferma la directory del progetto
+   - Conferma che è un progetto Django
+   - Configura le impostazioni di build se necessario
+
+5. Una volta completato il deployment, esegui le migrazioni del database:
+
+   ```
+   python run_migrations.py
+   ```
+
+   Questo script verificherà che DATABASE_URL sia impostato, eseguirà le migrazioni e creerà un superuser se necessario.
+
+   Nota: Questo script deve essere eseguito localmente o tramite un servizio CI/CD come GitHub Actions, poiché Vercel non supporta l'esecuzione diretta di script Python dopo il deployment.
+
+6. Accedi all'URL fornito da Vercel per visualizzare la tua applicazione
+
+### Aggiornamenti
+
+Per aggiornare l'applicazione dopo aver apportato modifiche:
+
+1. Esegui nuovamente il deployment:
+   ```
+   vercel
+   ```
+
+2. Se hai apportato modifiche al database, puoi utilizzare il workflow GitHub Actions incluso:
+
+   Questo progetto include un workflow GitHub Actions (`.github/workflows/vercel-deploy.yml`) che automatizza il processo di deployment e l'esecuzione delle migrazioni del database.
+
+   Per utilizzarlo:
+
+   a. Configura i seguenti secrets nel tuo repository GitHub:
+      - `VERCEL_TOKEN`: Il tuo token API Vercel (ottenibile da https://vercel.com/account/tokens)
+      - `DATABASE_URL`: L'URL di connessione al tuo database PostgreSQL
+      - `SECRET_KEY`: La chiave segreta per Django
+
+   b. Esegui il push del codice sul branch main o avvia manualmente il workflow dalla sezione Actions del tuo repository GitHub.
+
+   Il workflow si occuperà di:
+   - Deployare l'applicazione su Vercel
+   - Eseguire le migrazioni del database
+   - Creare un superuser se necessario
+
 ## Licenza
 
 Questo progetto è rilasciato sotto licenza libera.

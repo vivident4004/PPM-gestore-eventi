@@ -249,6 +249,16 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.organizer = self.request.user
+
+        # Handle image upload to Vercel Blob if an image is provided
+        if 'image' in self.request.FILES:
+            from .utils import upload_to_vercel_blob
+            try:
+                image_url = upload_to_vercel_blob(self.request.FILES['image'])
+                form.instance.image = image_url
+            except Exception as e:
+                messages.error(self.request, _(f'Error uploading image: {str(e)}'))
+
         self.object = form.save(commit=False)
 
         price_formset = PriceOptionFormSet(self.request.POST, instance=self.object)
@@ -375,6 +385,14 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         Instead of physically deleting the event, set is_deleted=True.
         """
         self.object = self.get_object()
+
+# Delete the image from Vercel Blob if it exists
+if self.object.image and self.object.image.startswith('https://'):
+    from .utils import delete_from_vercel_blob
+    try:
+        delete_from_vercel_blob(self.object.image)
+    except Exception as e:
+        messages.warning(request, _(f'Error deleting image: {str(e)}'))
 
         # Logical deletion - set is_deleted flag to True
         self.object.is_deleted = True
