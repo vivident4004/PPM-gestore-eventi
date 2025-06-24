@@ -1151,6 +1151,9 @@ msgstr "I tuoi prossimi eventi"
 msgid "Adults only"
 msgstr "Solo per adulti"
 
+msgid "adults only"
+msgstr "solo per adulti"
+
 msgid "Check this if the event is for adults (18+) only"
 msgstr "Spunta se questo evento è solo per adulti (età 18+)"
 

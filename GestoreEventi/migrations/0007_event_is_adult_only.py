@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='is_adult_only',
-            field=models.BooleanField(default=False, help_text='Check this if the event is for adults (18+) only', verbose_name='Adults Only'),
+            field=models.BooleanField(default=False, help_text='Check this if the event is for adults (18+) only', verbose_name='Adults only'),
         ),
     ]

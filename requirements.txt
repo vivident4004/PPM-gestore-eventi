@@ -4,4 +4,4 @@ python-dotenv~=1.1.0
 Pillow
 whitenoise
 psycopg[binary,pool]
-dj_database_url
+dj-database-url

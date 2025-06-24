@@ -28,6 +28,8 @@ urlpatterns = [
 # Add all other URL patterns that should be translated
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    # Add a redirect for admin without trailing slash
+    path('admin', RedirectView.as_view(url='admin/', permanent=True)),
     path('accounts/', include('django.contrib.auth.urls')),
     path('users/', include('users.urls')),
     path('events/', include('GestoreEventi.urls')),

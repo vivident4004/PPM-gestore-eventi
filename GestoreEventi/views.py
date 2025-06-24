@@ -138,19 +138,19 @@ class EventListView(ListView):
         context['max_price'] = self.request.GET.get('max_price', '')
 
         # Ensure all events have their image, end_date, and price properly processed
-        for event in context['events']:
-            # Ensure image URL is accessible if image exists
-            if event.image:
-                event.has_image = True
-            else:
-                event.has_image = False
-
-            # Flag for end_date existence
-            event.has_end_date = event.end_date is not None
-
-            # Add price information
-            event.price_display = event.get_price_range()
-            event.is_free = event.is_free()
+        # for event in context['events']:
+        #     # Ensure image URL is accessible if image exists
+        #     if event.image:
+        #         event.has_image = True
+        #     else:
+        #         event.has_image = False
+        #
+        #     # Flag for end_date existence
+        #     event.has_end_date = event.end_date is not None
+        #
+        #     # Add price information
+        #     event.price_display = event.get_price_range()
+        #     event.is_free = event.is_free()
 
         return context
 
@@ -196,10 +196,8 @@ class EventDetailView(DetailView):
 
         # Process image and end_date for the event
         event = context['event']
-        if event.image:
-            event.has_image = True
-        else:
-            event.has_image = False
+        # has_image is now a property of the Event model
+        # No need to set it here
 
         event.has_end_date = event.end_date is not None
 
@@ -256,6 +254,16 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
             return self.form_invalid(form)
 
         try:
+            # Handle image upload to database
+            image_file = self.request.FILES.get('image')
+            if image_file:
+                # Create EventImage instance from the uploaded file
+                from .models import EventImage
+                event_image = EventImage.from_file(image_file)
+                if event_image:
+                    event_image.save()
+                    self.object.image_db = event_image
+
             self.object.save()
             form.save_m2m()
             price_formset.save()
@@ -316,6 +324,29 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if not price_formset.is_valid():
             # If the formset is not valid, return to the form with errors
             return self.form_invalid(form)
+
+        # Handle image upload to database
+        image_file = self.request.FILES.get('image')
+        if image_file:
+            # Create EventImage instance from the uploaded file
+            from .models import EventImage
+            event_image = EventImage.from_file(image_file)
+            if event_image:
+                # Save the new image
+                event_image.save()
+
+                # If there's an existing image, we could delete it to save space
+                old_image = self.object.image_db
+                if old_image:
+                    # Store the old image ID to delete after updating the reference
+                    old_image_id = old_image.id
+                    # Update the reference to the new image
+                    self.object.image_db = event_image
+                    # Delete the old image after updating the reference
+                    EventImage.objects.filter(id=old_image_id).delete()
+                else:
+                    # No existing image, just set the new one
+                    self.object.image_db = event_image
 
         # Save the event to the database
         self.object.save()
@@ -524,7 +555,8 @@ def my_registrations(request):
     return render(request, 'GestoreEventi/my_registrations.html', context)
 
 @login_required
-@permission_required('GestoreEventi.view_registration', raise_exception=True)
+#@permission_required('GestoreEventi.view_registration', raise_exception=True)
+@login_required
 def event_attendees(request, pk):
     event = get_object_or_404(Event, pk=pk, is_deleted=False)
 

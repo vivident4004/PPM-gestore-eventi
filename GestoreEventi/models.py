@@ -4,6 +4,10 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.formats import number_format
+from django.core.files.base import ContentFile
+import base64
+import io
+from PIL import Image as PILImage
 
 # Create your models here.
 def format_price(price):
@@ -11,6 +15,39 @@ def format_price(price):
     if price is None:
         return ""
     return f"{number_format(price, decimal_pos=2)} €"
+
+class EventImage(models.Model):
+    """Model to store event images in the database"""
+    name = models.CharField(max_length=255)
+    data = models.BinaryField()
+    content_type = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def base64_image(self):
+        """Return the image data as a base64 encoded string for use in templates"""
+        return base64.b64encode(self.data).decode('utf-8')
+
+    @classmethod
+    def from_file(cls, file):
+        """Create an EventImage instance from an uploaded file"""
+        if not file:
+            return None
+
+        # Read the file data
+        data = file.read()
+
+        # Create a new EventImage instance
+        image = cls(
+            name=file.name,
+            data=data,
+            content_type=file.content_type
+        )
+
+        return image
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -60,10 +97,29 @@ class Event(models.Model):
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='organized_events')
     max_attendees = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+    # Replace ImageField with ForeignKey to EventImage
+    image_db = models.ForeignKey(EventImage, on_delete=models.SET_NULL, null=True, blank=True, related_name='events')
+    # Keep the original field for backward compatibility but don't use it for storage
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
     categories = models.ManyToManyField(Category, related_name='events', blank=True)
     is_deleted = models.BooleanField(default=False) # per la cancellazione logica
-    is_adult_only = models.BooleanField(default=False, verbose_name=_('Adults Only'), help_text=_('Check this if the event is for adults (18+) only'))
+    is_adult_only = models.BooleanField(default=False, verbose_name=_('Adults only'), help_text=_('Check this if the event is for adults (18+) only'))
+
+    @property
+    def has_image(self):
+        """Return True if the event has an image (either in database or file system)"""
+        return self.image_db is not None or bool(self.image)
+
+    @property
+    def image_url(self):
+        """Return the URL for the image (either from database or file system)"""
+        if self.image_db:
+            # Return a data URI for the database image
+            return f"data:{self.image_db.content_type};base64,{self.image_db.base64_image}"
+        elif self.image:
+            # Return the URL for the file system image
+            return self.image.url
+        return None
 
     def __str__(self):
         return self.title
