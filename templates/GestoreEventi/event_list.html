@@ -132,7 +132,7 @@
             <div class="col">
                 <div class="card event-card">
                     {% if event.has_image %}
-                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    <img src="{{ event.image_url }}" class="card-img-top" alt="{{ event.title }}">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ event.title }}</h5>

@@ -255,7 +255,8 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
 
         try:
             # Handle image upload to database
-            image_file = self.request.FILES.get('image')
+            # Usa il nuovo campo 'image_upload'
+            image_file = self.request.FILES.get('image_upload')
             if image_file:
                 # Create EventImage instance from the uploaded file
                 from .models import EventImage
@@ -263,9 +264,12 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
                 if event_image:
                     event_image.save()
                     self.object.image_db = event_image
+                    self.object.image = None
 
             self.object.save()
             form.save_m2m()
+            # Associa il formset all'istanza salvata
+            price_formset.instance = self.object
             price_formset.save()
 
             new_categories_text = form.cleaned_data.get('new_categories', '')
@@ -282,7 +286,7 @@ class EventCreateView(LoginRequiredMixin, OrganizerRequiredMixin, CreateView):
                     except IntegrityError:
                         messages.warning(self.request, f'Category "{name}" could not be created')
 
-            return HttpResponseRedirect(self.get_success_url())
+            return super().form_valid(form)
         except Exception as e:
             messages.error(self.request, f'Error saving event: {str(e)}')
             return self.form_invalid(form)
@@ -316,6 +320,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        # Ora form.save() non toccherà più il campo 'image'
         # Create the event instance but don't save it to the database yet
         self.object = form.save(commit=False)
 
@@ -326,7 +331,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return self.form_invalid(form)
 
         # Handle image upload to database
-        image_file = self.request.FILES.get('image')
+        image_file = self.request.FILES.get('image_upload')
         if image_file:
             # Create EventImage instance from the uploaded file
             from .models import EventImage
@@ -335,18 +340,15 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 # Save the new image
                 event_image.save()
 
-                # If there's an existing image, we could delete it to save space
-                old_image = self.object.image_db
-                if old_image:
-                    # Store the old image ID to delete after updating the reference
-                    old_image_id = old_image.id
-                    # Update the reference to the new image
-                    self.object.image_db = event_image
-                    # Delete the old image after updating the reference
-                    EventImage.objects.filter(id=old_image_id).delete()
-                else:
-                    # No existing image, just set the new one
-                    self.object.image_db = event_image
+                # Cancella la vecchia immagine se esiste
+                if self.object.image_db:
+                    self.object.image_db.delete()
+
+                # Assegna la nuova immagine
+                self.object.image_db = event_image
+
+                # Assicurati che il vecchio campo 'image' sia vuoto per evitare problemi
+                self.object.image = None
 
         # Save the event to the database
         self.object.save()
@@ -375,7 +377,8 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     self.object.categories.add(category)
 
         # Return a redirect to the success URL
-        return HttpResponseRedirect(self.get_success_url())
+        # return HttpResponseRedirect(self.get_success_url())
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('event-detail', kwargs={'pk': self.object.pk})

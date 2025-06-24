@@ -23,6 +23,12 @@ class EventForm(forms.ModelForm):
         help_text=_('Add new categories separated by commas')
     )
 
+    image_upload = forms.ImageField(
+        label=_('Image'),
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'form-control'})
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Sovrascrivi le etichette qui
@@ -32,14 +38,14 @@ class EventForm(forms.ModelForm):
         self.fields['end_date'].label = _('end date')
         self.fields['location'].label = _('location')
         self.fields['max_attendees'].label = _('max attendees')
-        self.fields['image'].label = _('image')
+        # self.fields['image'].label = _('image')
         self.fields['categories'].label = _('categories')
         self.fields['new_categories'].label = _('new categories')
         self.fields['is_adult_only'].label = _('adults only')
 
     class Meta:
         model = Event
-        fields = ['title', 'description', 'date', 'end_date', 'location', 'max_attendees', 'image', 'categories', 'is_adult_only']
+        fields = ['title', 'description', 'date', 'end_date', 'location', 'max_attendees', 'categories', 'is_adult_only']
 
         widgets = {
             'title': forms.TextInput(
@@ -68,9 +74,9 @@ class EventForm(forms.ModelForm):
             'max_attendees': forms.NumberInput(
                 attrs={'class': 'form-control', 'min': '1'}
             ),
-            'image': forms.FileInput(
-                attrs={'class': 'form-control'}
-            ),
+            # 'image': forms.FileInput(
+            #     attrs={'class': 'form-control'}
+            # ),
             'categories': forms.CheckboxSelectMultiple(
                 attrs={'class': 'form-check-input'}
             ),
