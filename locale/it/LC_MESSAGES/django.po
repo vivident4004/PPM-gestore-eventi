@@ -1192,3 +1192,21 @@ msgstr "Il tuo profilo è stato aggiornato con successo."
 
 msgid "The following fields are optional. You can update them later in your user control panel."
 msgstr "I seguenti campi sono opzionali. Puoi aggiornarli successivamente nel tuo pannello di controllo utente."
+
+msgid "Change Password"
+msgstr "Cambia parola d'accesso"
+
+msgid "Current Password"
+msgstr "parola d'accesso attuale"
+
+msgid "New Password"
+msgstr "Nuova parola d'accesso"
+
+msgid "Confirm New Password"
+msgstr "Conferma nuova parola d'accesso"
+
+msgid "Your password has been changed successfully."
+msgstr "La tua parola d'accesso è stata cambiata con successo."
+
+msgid "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+msgstr "Il numero di telefono deve essere inserito nel formato: '+999999999'. Sono consentite fino a 15 cifre."

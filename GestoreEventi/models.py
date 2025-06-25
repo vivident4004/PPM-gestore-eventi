@@ -4,10 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.formats import number_format
-from django.core.files.base import ContentFile
 import base64
-import io
-from PIL import Image as PILImage
 
 # Create your models here.
 def format_price(price):

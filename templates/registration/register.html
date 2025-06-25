@@ -62,9 +62,11 @@
                     <div class="mb-3">
                         <label for="{{ form.phone.id_for_label }}" class="form-label">{% translate "Phone number" %}</label>
                         {{ form.phone.errors }}
-                        <input type="text" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" 
+                        <input type="tel" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" 
                                class="form-control {% if form.phone.errors %}is-invalid{% endif %}" 
-                               value="{{ form.phone.value|default:'' }}">
+                               value="{{ form.phone.value|default:'' }}"
+                               pattern="\+?\d{9,15}"
+                               title="{% translate 'Phone number must be entered in the format: \"+999999999\". Up to 15 digits allowed.' %}">
                     </div>
 
                     <div class="alert alert-info">

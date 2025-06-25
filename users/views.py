@@ -1,6 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.views.generic import CreateView, UpdateView
@@ -83,9 +83,16 @@ class UserProfileForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'date_of_birth': forms.DateInput(
+                format='%Y-%m-%d', # Formato standard che HTML5 capisce
+                attrs ={'class': 'form-control', 'type': 'date'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'type': 'tel',
+                'pattern': '\\+?\\d{9,15}',
+                'title': _('Phone number must be entered in the format: "+999999999". Up to 15 digits allowed.')
+            }),
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
         help_texts = {
@@ -105,6 +112,32 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         """Return the current user's profile."""
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'password_form' not in context:
+            context['password_form'] = SetPasswordForm(self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        # Distinguiamo quale form è stato inviato
+        if 'change_password' in request.POST:
+            password_form = SetPasswordForm(user=request.user, data=request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)  # Mantiene l'utente loggato
+                messages.success(request, _('Your password has been changed successfully.'))
+                return redirect(self.get_success_url())
+            else:
+                # Se il form non è valido, renderizza di nuovo la pagina con gli errori
+                context = self.get_context_data(password_form=password_form)
+                return self.render_to_response(context)
+        else:
+            # Altrimenti, gestisci il form del profilo
+            return super().post(request, *args, **kwargs)
+
 
     def form_valid(self, form):
         """Handle valid form submission."""

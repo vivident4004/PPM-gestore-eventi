@@ -26,10 +26,10 @@ COPY . /app/
 #COPY traduzioni.sh /traduzioni.sh
 #RUN chmod +x /traduzioni.sh
 #ENTRYPOINT ["/traduzioni.sh"]
-#EXPOSE 8000
+EXPOSE 8000
 
-RUN chmod +x /build.sh
-ENTRYPOINT ["/build.sh"]
+RUN chmod +x /app/build.sh
+ENTRYPOINT ["/app/build.sh"]
 
 # Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "ProgettoEventi.wsgi:application"]
+CMD ["gunicorn", "ProgettoEventi.wsgi:application"]
