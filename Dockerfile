@@ -1,35 +1,34 @@
-# Use Python 3.10 slim as base image
+# Usa Python 3.10 slim come immagine base
 FROM python:3.10-slim
 
-# Set environment variables
+# Imposta variabili d'ambiente
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set work directory
+# Imposta la cartella di lavoro
 WORKDIR /app
 
-# Install system dependencies, INCLUDING GETTEXT
+# Installa dipendenze di sistema
 RUN apt-get update \
     && apt-get install -y gettext \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Install Python dependencies
+# Installa dipendenze Python
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
+# Copia l'intero progetto
 COPY . /app/
 
-# Compila le traduzioni
-#RUN python manage.py compilemessages -l it
-#COPY traduzioni.sh /traduzioni.sh
-#RUN chmod +x /traduzioni.sh
-#ENTRYPOINT ["/traduzioni.sh"]
+# Operazioni che sono nel build.sh accorpate in uno unico strato RUN
+RUN \
+  python manage.py migrate && \
+  python manage.py compilemessages -l it && \
+  python manage.py collectstatic --noinput && \
+  python makesu.py --noinput
+
 EXPOSE 8000
 
-RUN chmod +x /app/build.sh
-ENTRYPOINT ["/app/build.sh"]
-
-# Run gunicorn
-CMD ["gunicorn", "ProgettoEventi.wsgi:application"]
+# Incluso anche nel docker-compose.yml
+CMD ["gunicorn", "ProgettoEventi.wsgi:application", "--bind", "0.0.0.0:8000"]

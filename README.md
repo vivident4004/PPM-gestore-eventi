@@ -1,7 +1,7 @@
 # Sistema di gestione degli eventi
 
 Questo è un progetto universitario per un'applicazione web in Django per la gestione di eventi, dove gli utenti possono visualizzare, creare, gestire e partecipare a eventi.
-Il sito è visitabile alla pagina https://progetto-eventi-seven.vercel.app
+Il sito è visitabile alla pagina https://progetto-eventi-seven.vercel.app ![Live](https://img.shields.io/badge/status-live-success)
 
 ## Funzionalità
 
@@ -20,15 +20,17 @@ Il sito è visitabile alla pagina https://progetto-eventi-seven.vercel.app
 
 1. Clona il repositorio:
    ```
-   git clone <url-del-repositorio>
-   cd ProgettoEventi
+   git clone https://github.com/vivident4004/PPM-gestore-eventi
+   cd PPM-gestore-eventi
    ```
 
-2. Crea e attiva un ambiente virtuale:
+2. Crea e attiva un ambiente virtuale nella cartella del progetto:
    ```
    python -m venv .venv
    .venv\Scripts\activate
    ```
+3. Nel docker-compose.yml inserisci un valore per SECRET_KEY, oppure inserisci tale parametro nel documento ```.env```.
+(su GNU/Linux e altri sistemi operativi i comandi per attivare l'ambiente virtuale potrebbero essere diversi. Consulta [questa pagina](https://docs.python.org/3/library/venv.html#how-venvs-work) per trovare il comando giusto per te. Ad esempio, su Ubuntu il comando è ```source .venv/bin/activate```.)
 
 ### Costruzione ed esecuzione con Docker
 ### Prerequisiti
@@ -37,15 +39,17 @@ Il sito è visitabile alla pagina https://progetto-eventi-seven.vercel.app
 
 1. Costruisci l'immagine Docker dalla radice del progetto:
    ```
-   docker-compose build
+   docker compose build
    ```
 
 2. Avvia il container:
    ```
-   docker-compose up -d
+   docker compose up -d
    ```
 
-Il bash `build.sh` si occuperà di applicare le migrazioni, creare le traduzioni e un superutente locale (se non c'è già).
+(oppure, in un unico comando: ```docker compose up --build -d```).
+
+Il Dockerfile si occuperà di applicare le migrazioni, creare le traduzioni e un superutente locale (se non c'è già).
 
 3. Accedi all'applicazione all'indirizzo http://localhost:8000/
 
